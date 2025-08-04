@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class MyTheme {
-  static final primaryColor = const Color.fromARGB(255, 138, 186, 226); // عدّل حسب اللون الذي تستخدمه
+  static final primaryColor = const Color.fromARGB(255, 138, 186, 226); // primary color sowie App bar color 
 
   static ThemeData light = ThemeData(
     brightness: Brightness.light,

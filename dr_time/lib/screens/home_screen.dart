@@ -1,5 +1,5 @@
+import 'package:dr_time/Theme/medCard.dart';
 import 'package:dr_time/screens/add.dart';
-import 'package:dr_time/screens/viewMedPage.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {    //HomePage
@@ -46,104 +46,25 @@ class _HomePageState extends State<HomePage> {
             child: ListView(
               padding:const EdgeInsets.only(left: 8),
               children:<Widget> [
+                MedCard(medName: "Lamotrigine 200 mg", imagePath: "images/lamo.jpg"),
 
-                Material( color: Colors.transparent,
-                child: InkWell(
-                  onTap: (){Navigator.push(context, MaterialPageRoute(builder: (context)=> ViewMedPage(medName: "Lamotrigine 200 mg",imagePath:"images/lamo.jpg" ,) ));},
-                child: 
-                SizedBox(height: 70,
-                child: Row( crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                  SizedBox(width: 100,height: 100, child: Image.asset("images/lamo.jpg",fit: BoxFit.cover),),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text("Lamotrigine 200 mg", style:TextStyle(fontSize:16),),
-                  ),
-
-                  ],
-                  ),
-                  ),
-                ),
-                ),
                 Divider(thickness: 1,indent: 20,endIndent: 20,),
-                SizedBox(height: 15,),
-                                Material( color: Colors.transparent,
-                child: InkWell(
-                 onTap: (){Navigator.push(context, MaterialPageRoute(builder: (context)=> ViewMedPage(medName: "Levacetam 500 mg",imagePath:"images/leva.jpg" ,) ));},
-                 child:
-                SizedBox(height: 50,
-                child: Row( crossAxisAlignment: CrossAxisAlignment.center,
+                SizedBox(height: 10,),
 
-                  children: [
-                  SizedBox(width: 100,height: 100, child: Image.asset("images/leva.jpg",fit: BoxFit.cover),),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text("Levacetam 500 mg", style:TextStyle(fontSize:16),),
-                  ),
- 
-                  ],
-                  ),
-                ),
-                ),
-                  ),
+                MedCard(medName: "Levacetam 500 mg", imagePath: "images/leva.jpg"),
 
                const Divider(thickness: 1,indent: 20,endIndent: 20,),
-                               SizedBox(height: 15,),
-                               Material(color: Colors.transparent,
-                               child: InkWell(
-                                onTap: (){Navigator.push(context, MaterialPageRoute(builder: (context)=> ViewMedPage(medName: "Paracetamol 1000 mg",imagePath:"images/para.jpg" ,) ));},
-                                child: 
-                                SizedBox(height: 50,
-                child: Row( crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                  SizedBox(width: 100,height: 100, child: Image.asset("images/para.jpg",fit: BoxFit.cover),),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text("Paracetamol 1000 mg", style:TextStyle(fontSize:16),),
-                  ),
-                  ],
-                  ),
-                  ),
-                  ),
-                  ),
+               SizedBox(height: 10,),
+
+               MedCard(medName: "Paracetamol 1000 mg", imagePath: "images/para.jpg"),   
                const Divider(thickness: 1,indent: 20,endIndent: 20,),
-                                              SizedBox(height: 15,),
-                                              Material(color: Colors.transparent,
-                                              child: InkWell(
-                                                onTap: (){Navigator.push(context, MaterialPageRoute(builder: (context)=> ViewMedPage(medName: "Rampil 5 mg",imagePath:"images/ram.jpg" ,) ));},
-                                                child: 
-                                SizedBox(height: 50,
-                child: Row( crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                  SizedBox(width: 100,height: 100, child: Image.asset("images/ram.jpg",fit: BoxFit.cover),),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text("Ramipril 5 mg", style:TextStyle(fontSize:16),),
-                  ),
- 
-                  ],),
-                   ),
-                   ),
-                  ),
+               SizedBox(height: 10,),
+
+               MedCard(medName: "Ramipril 5 mg", imagePath: "images/ram.jpg"),
                const Divider(thickness: 1,indent: 20,endIndent: 20,),
-                              SizedBox(height: 15,),
-                              Material(color: Colors.transparent,
-                                   child: InkWell(
-                                   onTap: (){Navigator.push(context, MaterialPageRoute(builder: (context)=> ViewMedPage(medName: "Atorvastatin 20 mg", imagePath: "images/ato.jpg")));},
-                                   child: 
-                                SizedBox(height: 50,
-                child: Row( crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                  SizedBox(width: 100,height: 100, child: Image.asset("images/ato.jpg",fit: BoxFit.cover),),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text("Atorvastatin 20 mg", style:TextStyle(fontSize:16),),
-                  ),
- 
-                  ],),
-                     ),
-                     ),
-                  ),
+               SizedBox(height: 10,),
+
+               MedCard(medName: "Atrovastatin 20 mg", imagePath: "images/ato.jpg"),
                const Divider(thickness: 1,indent: 20,endIndent: 20,),
                
                

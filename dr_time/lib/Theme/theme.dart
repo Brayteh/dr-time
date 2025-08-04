@@ -7,7 +7,7 @@ class MyTheme {
     brightness: Brightness.light,
     primaryColor: primaryColor,
     scaffoldBackgroundColor: Colors.white,
-    fontFamily: 'Roboto', // أو اسم الخط الذي تستخدمه
+    fontFamily: 'Roboto', // Font type 
     textTheme: const TextTheme(
       headlineLarge: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
       bodyMedium: TextStyle(fontSize: 16),

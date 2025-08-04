@@ -1,4 +1,5 @@
 
+import 'package:dr_time/Theme/theme.dart';
 import 'package:dr_time/screens/sign_in_screen.dart';
 
 import 'package:flutter/material.dart';
@@ -17,6 +18,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(                  // hon menbalish MaterialApp  
     debugShowCheckedModeBanner: false,
+    theme: MyTheme.light,
       home: LogInPage(),
     );
   }

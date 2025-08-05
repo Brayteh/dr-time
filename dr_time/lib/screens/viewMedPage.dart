@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 class ViewMedPage extends StatelessWidget {
   final String medName;
   final String imagePath;
+  final String info;
 
-  const ViewMedPage({super.key, required this.medName, required this.imagePath});
+  const ViewMedPage({super.key, required this.medName, required this.imagePath, required this.info,});
 
   @override
   Widget build(BuildContext context) {
@@ -18,10 +19,12 @@ class ViewMedPage extends StatelessWidget {
          mainAxisAlignment: MainAxisAlignment.center,
          children: [
           Image.asset(imagePath, width: 200,height: 200,fit: BoxFit.cover,),
+
           const SizedBox(height: 20,),
           Text(medName, style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),),
+          
           SizedBox(height: 10,),
-          const Text("more info",style:TextStyle(fontSize: 16),textAlign: TextAlign.center,),
+          Text(info, style:TextStyle(fontSize: 16),textAlign: TextAlign.center,),
          ],
 
         ),

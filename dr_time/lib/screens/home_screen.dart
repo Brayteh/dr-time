@@ -28,7 +28,7 @@ class _HomePageState extends State<HomePage> {
               child: InkWell(
                 onTap: (){Navigator.push(context,MaterialPageRoute(builder: (context)=> AddPage() ));},
                 child:
-              Row(
+               Row(
                 children: [
                   Text("Add", style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold,color: Colors.blue),),  //Add
                   Padding(
@@ -46,25 +46,26 @@ class _HomePageState extends State<HomePage> {
             child: ListView(
               padding:const EdgeInsets.only(left: 8),
               children:<Widget> [
-                MedCard(medName: "Lamotrigine 200 mg", imagePath: "images/lamo.jpg"),
+                
+                MedCard(medName: "Lamotrigine 200 mg", imagePath: "images/lamo.jpg", info: "3 mal pro Tag nach dem Essen",),
 
                 Divider(thickness: 1,indent: 20,endIndent: 20,),
                 SizedBox(height: 10,),
 
-                MedCard(medName: "Levacetam 500 mg", imagePath: "images/leva.jpg"),
+                MedCard(medName: "Levacetam 500 mg", imagePath: "images/leva.jpg", info: "2 ,mal pro Tag nach dem Essen",),
 
                const Divider(thickness: 1,indent: 20,endIndent: 20,),
                SizedBox(height: 10,),
 
-               MedCard(medName: "Paracetamol 1000 mg", imagePath: "images/para.jpg"),   
+               MedCard(medName: "Paracetamol 1000 mg", imagePath: "images/para.jpg", info: "1 mal nach dem Essen",),   
                const Divider(thickness: 1,indent: 20,endIndent: 20,),
                SizedBox(height: 10,),
 
-               MedCard(medName: "Ramipril 5 mg", imagePath: "images/ram.jpg"),
+               MedCard(medName: "Ramipril 5 mg", imagePath: "images/ram.jpg", info: "1 mal vor dem Essen morghens",),
                const Divider(thickness: 1,indent: 20,endIndent: 20,),
                SizedBox(height: 10,),
 
-               MedCard(medName: "Atrovastatin 20 mg", imagePath: "images/ato.jpg"),
+               MedCard(medName: "Atrovastatin 20 mg", imagePath: "images/ato.jpg",info: "1 mal bevor schlafen",),
                const Divider(thickness: 1,indent: 20,endIndent: 20,),
                
                

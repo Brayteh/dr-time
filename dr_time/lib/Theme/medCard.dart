@@ -2,9 +2,10 @@ import 'package:dr_time/screens/viewMedPage.dart';
 import 'package:flutter/material.dart';
 
 class MedCard extends StatelessWidget {
-  String medName;
-  String imagePath;
-   MedCard({super.key, required this.medName, required this.imagePath,});
+ final String medName;
+ final String imagePath;
+ final String info;
+   MedCard({super.key, required this.medName, required this.imagePath, required this.info});
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +13,7 @@ class MedCard extends StatelessWidget {
 
                 color: Colors.transparent,
                 child: InkWell(
-                  onTap: (){Navigator.push(context, MaterialPageRoute(builder: (context)=> ViewMedPage(medName: medName,imagePath:imagePath ,) ));},
+                  onTap: (){Navigator.push(context, MaterialPageRoute(builder: (context)=> ViewMedPage(medName: medName, imagePath:imagePath, info:info) ));},
                 child: 
                 SizedBox(height: 70,
                 child: Row( crossAxisAlignment: CrossAxisAlignment.center,

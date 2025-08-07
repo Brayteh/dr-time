@@ -29,17 +29,7 @@ class SignUpPage extends StatelessWidget {
               child: TextField(
                 keyboardType: TextInputType.name,
                 decoration: InputDecoration(
-                  label: Text("enter your name"),
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(25),
-                  borderSide: BorderSide(color: Colors.black)
-                  ),
-                  enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(25),
-                  borderSide: BorderSide(color: Colors.black),
-                  ),
-                  focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(25),
-                  ),
-                  
-                ),
+                  label: Text("enter your name"),),
               ),
               ),
             Padding(padding: EdgeInsets.only(left: 18),
@@ -52,17 +42,7 @@ class SignUpPage extends StatelessWidget {
               child: TextField(
                 keyboardType: TextInputType.name,
                 decoration: InputDecoration(
-                  label: Text("enter your last name"),
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(25),
-                  borderSide: BorderSide(color: Colors.black)
-                  ),
-                  enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(25),
-                  borderSide: BorderSide(color: Colors.black),
-                  ),
-                  focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(25),
-                  ),
-                  
-                ),
+                  label: Text("enter your last name"),),
               ),
               ),
             Padding(padding: EdgeInsets.only(left: 18),    //Date of birth
@@ -75,17 +55,7 @@ class SignUpPage extends StatelessWidget {
               child: TextField(
                 keyboardType: TextInputType.datetime,
                 decoration: InputDecoration(
-                  label: Text("enter your date of birth"),
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(25),
-                  borderSide: BorderSide(color: Colors.black)
-                  ),
-                  enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(25),
-                  borderSide: BorderSide(color: Colors.black),
-                  ),
-                  focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(25),
-                  ),
-                  
-                ),
+                  label: Text("enter your date of birth"),),
               ),
               ),
             Padding(padding: EdgeInsets.only(left: 18),         // Email
@@ -98,17 +68,7 @@ class SignUpPage extends StatelessWidget {
               child: TextField(
                 keyboardType: TextInputType.emailAddress,
                 decoration: InputDecoration(
-                  label: Text("enter your Email address"),
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(25),
-                  borderSide: BorderSide(color: Colors.black)
-                  ),
-                  enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(25),
-                  borderSide: BorderSide(color: Colors.black),
-                  ),
-                  focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(25),
-                  ),
-                  
-                ),
+                  label: Text("enter your Email address"),),
               ),
               ),
 

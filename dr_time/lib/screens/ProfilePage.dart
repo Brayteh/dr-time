@@ -1,4 +1,3 @@
-import 'package:dr_time/Theme/customBorder.dart';
 import 'package:dr_time/screens/sign_in_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -33,11 +32,9 @@ class ProfilePage extends StatelessWidget {
             child: Text("First name",style: TextStyle(fontSize: 22),), // first name
           ),
           Padding(padding: EdgeInsets.all(16),   //Border
-          child: TextField(
+          child: TextField( keyboardType: TextInputType.name,
             decoration: InputDecoration(
               hintText: "your name",
-              enabledBorder: myCustomBorder(),
-              focusedBorder: myCustomBorder(),
             ),
           ),
           ),
@@ -46,11 +43,9 @@ class ProfilePage extends StatelessWidget {
           child: Text("Last name",style: TextStyle(fontSize: 22),),  //last name
           ),
              Padding(padding: EdgeInsets.all(16),   //Border
-          child: TextField(
+          child: TextField( keyboardType: TextInputType.name,
             decoration: InputDecoration(
               hintText: "your last name",
-              enabledBorder: myCustomBorder(),
-              focusedBorder: myCustomBorder(),
             ),
           ),
           ),
@@ -63,8 +58,6 @@ class ProfilePage extends StatelessWidget {
             keyboardType: TextInputType.datetime,
             decoration: InputDecoration(
               hintText: "your date of birth",
-              enabledBorder: myCustomBorder(),
-              focusedBorder: myCustomBorder(),
             ),
           ),
           ),
@@ -73,11 +66,9 @@ class ProfilePage extends StatelessWidget {
           child: Text("Disease name",style: TextStyle(fontSize: 22),),
           ),
           Padding(padding: EdgeInsets.all(16),
-          child: TextField(
+          child: TextField( keyboardType: TextInputType.text,
             decoration: InputDecoration(
               hintText: "your disease name",
-              enabledBorder: myCustomBorder(),
-              focusedBorder: myCustomBorder(),
             ),
           ),
           ),

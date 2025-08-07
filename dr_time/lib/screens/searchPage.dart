@@ -26,18 +26,7 @@ class SearchPage extends StatelessWidget {
             keyboardType: TextInputType.text,
             decoration: InputDecoration(prefixIcon: Icon(Icons.search),
             hintText: "Search here",
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(25),
-              borderSide: const BorderSide(color: Colors.black, ),
-            ),
-              enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(25),
-              borderSide: const BorderSide(color: Colors.black, ),
-            ),
-            
-            
-            ),
-            ),
+          ),),
           ),
         ],
       ),

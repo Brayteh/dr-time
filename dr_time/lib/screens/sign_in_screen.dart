@@ -1,5 +1,5 @@
 
-import 'package:dr_time/Theme/navigationPage.dart';
+import 'package:dr_time/screens/navigationPage.dart';
 import 'package:dr_time/screens/sign_up.dart';
 import 'package:flutter/material.dart';
 
@@ -26,44 +26,20 @@ class LogInPage extends StatelessWidget {   //loginscreen
             ),
             ),
                   SizedBox(height: 3),
-                  Padding(padding: EdgeInsets.all(16), // hyda border 
-              child: TextField( // hyda child 5asso bel border tafasil
-                 keyboardType: TextInputType.emailAddress,
-                 decoration: InputDecoration(
-                 labelText: "enter your email *", border: OutlineInputBorder(borderRadius: BorderRadius.circular(25),
-                 borderSide: BorderSide(color: Colors.black),
-             ),
-                 enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(25),
-                 borderSide: BorderSide(color: Colors.black),
-             ),
-                 focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(25),
-                 borderSide: BorderSide(color: Colors.black),
-            ),
-            
-            ),
-            ),
+                  Padding(padding: EdgeInsets.all(16),  
+              child: TextField( keyboardType: TextInputType.emailAddress,
+                decoration: InputDecoration(hintText: "enter your Email"), // from Theme "Border"
+              ) 
             ),
                  Padding(padding: EdgeInsets.only(left: 16),
                  child: Text("Password", style: TextStyle(fontSize: 15), // Password
             ),
             ),
                  SizedBox(height: 3),
-                 Padding(padding: EdgeInsets.all(16),                   // hyda border 
-                 child: TextField(                                     // hyda child 5asso bel border tafasil
-                 keyboardType: TextInputType.visiblePassword,
-                 decoration: InputDecoration(
-                 labelText: "enter your password *", border: OutlineInputBorder(borderRadius: BorderRadius.circular(25),
-                 borderSide: BorderSide(color: Colors.black),
-             ),
-                  enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(25),
-                 borderSide: BorderSide(color: Colors.black),
-             ),
-                focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(25),
-                borderSide: BorderSide(color: Colors.black),
-            ),
-            
-            ),
-            ),
+                 Padding(padding: EdgeInsets.all(16),                   
+                 child: TextField(keyboardType: TextInputType.visiblePassword,
+                  decoration: InputDecoration(hintText: "enter your Password"),),// hyda border from Theme kamen                                   // hyda child 5asso bel border tafasil
+
             ),
             SizedBox(height: 50),
             Center(   // sign in button 

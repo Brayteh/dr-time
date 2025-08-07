@@ -26,5 +26,19 @@ class MyTheme {
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       ),
     ),
+          inputDecorationTheme: InputDecorationTheme(      // für Borders
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide(color: Colors.blue,width: 2),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide(color: Colors.grey),
+        ),
+        contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      ),
   );
 }

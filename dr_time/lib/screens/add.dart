@@ -1,4 +1,3 @@
-import 'package:dr_time/Theme/customBorder.dart';
 import 'package:flutter/material.dart';
 
 class AddPage extends StatelessWidget {
@@ -23,11 +22,9 @@ class AddPage extends StatelessWidget {
             child: Text("Name of Medicament",style:TextStyle(fontSize: 22,),),    // name of med
           ),
           Padding(padding: EdgeInsets.all(16),
-          child: TextField(
+          child: TextField( keyboardType: TextInputType.text,
             decoration: InputDecoration(
               hintText: "your new medicament",
-              enabledBorder: myCustomBorder(),
-              focusedBorder: myCustomBorder(),
             ),
           ),
           ),
@@ -36,11 +33,9 @@ class AddPage extends StatelessWidget {
           child: Text("Dose",style:TextStyle(fontSize: 22,),),    // Dose
           ),
             Padding(padding: EdgeInsets.all(16),
-          child: TextField(
+          child: TextField( keyboardType: TextInputType.text,
             decoration: InputDecoration(
               hintText: "the dose of your medicament",
-              enabledBorder: myCustomBorder(),
-              focusedBorder: myCustomBorder(),
             ),
           ),
           ),
@@ -53,8 +48,6 @@ class AddPage extends StatelessWidget {
             keyboardType: TextInputType.numberWithOptions(decimal: true, signed: false),   // keyboard numbers just positive numbers
             decoration: InputDecoration(
               hintText: "the number of times per day",
-              enabledBorder: myCustomBorder(),
-              focusedBorder: myCustomBorder(),
             ),
           ),
           ),

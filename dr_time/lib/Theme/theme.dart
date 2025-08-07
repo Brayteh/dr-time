@@ -9,9 +9,9 @@ class MyTheme {
     scaffoldBackgroundColor: Colors.white,
     fontFamily: 'Roboto', // Font type 
     textTheme: const TextTheme(
-      headlineLarge: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
-      bodyMedium: TextStyle(fontSize: 16),
-      labelLarge: TextStyle(fontSize: 14, color: Colors.blue),
+      headlineLarge: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+      bodyMedium: TextStyle(fontSize: 22),
+      labelLarge: TextStyle(fontSize: 16, color: Colors.blue),
     ),
     appBarTheme: AppBarTheme(
       backgroundColor: primaryColor,

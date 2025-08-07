@@ -93,10 +93,10 @@ class SignUpPage extends StatelessWidget {
               Center(
                 child: SizedBox(
                   height: 60,
-                  child: Icon(Icons.apple),
+                  child: IconButton(onPressed: (){}, icon: Icon(Icons.apple)),
                 ),
               ),
-              Icon(Icons.mail),
+              IconButton(onPressed: (){}, icon: Icon(Icons.mail)),
             ],
           ),   
               

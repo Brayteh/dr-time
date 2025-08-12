@@ -37,7 +37,7 @@ class LogInPage extends StatelessWidget {   //loginscreen
             ),
                  SizedBox(height: 3),
                  Padding(padding: EdgeInsets.all(16),                   
-                 child: TextField(keyboardType: TextInputType.visiblePassword,
+                 child: TextField(obscureText: true, keyboardType: TextInputType.visiblePassword,
                   decoration: InputDecoration(hintText: "enter your Password"),),// hyda border from Theme kamen                                   // hyda child 5asso bel border tafasil
 
             ),

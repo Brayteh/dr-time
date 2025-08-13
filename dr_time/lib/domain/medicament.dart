@@ -1,29 +1,38 @@
 
 class Medicament {
-  final String id;
-  final String name;
+  final int id;
+  final String imagePath;
+  final String medName;
+  final String dosis;
   final String info;
 
 
   const Medicament({
     required this.id,
-    required this.name,
+    required this.imagePath,
+    required this.medName,
+    required this.dosis,
     required this.info,
 
   });
 
   Medicament copyWith({
-    String? id,
-    String? name,
+    int? id,
+    String? imagePath,
+    String? medName,
+    String? dosis,
     String? info,
   }) {
+    
     return Medicament(
       id: id ?? this.id,
-      name: name ?? this.name,
+      imagePath: imagePath ?? this.imagePath,
+      medName: medName ?? this.medName,
+      dosis: dosis ?? this.dosis,
       info: info ?? this.info,
     );
   }
 
   factory Medicament.empty() =>
-      const Medicament(id: "", name: "",info:"");
+      const Medicament(id: 0,imagePath: "", medName: "",dosis: "", info:"");
 }

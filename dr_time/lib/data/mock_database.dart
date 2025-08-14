@@ -14,15 +14,15 @@ class MockDatabaseRepository implements DatabaseRepository {
 
 
 
-  @override // update
-  void updateMedicament(int id, Medicament neuesMedicament) {
-    for (int i = 0; i < _medicamente.length; i++) {
-      if (_medicamente[i].id == id) {
-        _medicamente[i] = neuesMedicament;
-        print("Medikament mit ID $id wurde updated.");
-        return;
-      }
+@override // update
+void updateMedicament(int id, Medicament medicament) {
+  for (int i = 0; i < _medicamente.length; i++) {
+    if (_medicamente[i].id == id) {
+      _medicamente[i] = medicament;
+      print("Medikament mit ID $id wurde updated.");
+      return;
     }
+  }
     print("Medikament mit ID $id nicht gefunden.");
   }
 

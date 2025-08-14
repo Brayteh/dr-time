@@ -11,7 +11,7 @@ void createMedicament(Medicament medicament);
 
 
 // update
-void updateMedicament(int id, Medicament medicament);
+void updateMedicament(int id, Medicament medicament,);
 
 // delete
 void deleteMedicament(int id);

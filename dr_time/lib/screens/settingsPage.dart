@@ -9,8 +9,8 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-  bool dark = true;
-  bool vibration = true;
+  bool dark = false;
+  bool vibration = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(

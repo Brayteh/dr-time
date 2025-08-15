@@ -1,8 +1,5 @@
 
 
-import 'package:dr_time/data/database_repository.dart';
-import 'package:dr_time/data/mock_database.dart';
-import 'package:dr_time/screens/home_screen.dart';
 import 'package:dr_time/screens/navigationPage.dart';
 import 'package:dr_time/screens/sign_up.dart';
 import 'package:flutter/material.dart';

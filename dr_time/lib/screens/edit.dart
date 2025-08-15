@@ -31,6 +31,23 @@ class _EditMedPageState extends State<EditMedPage> {
   late TextEditingController infoController;
   late TextEditingController imageController;
 
+
+
+
+              // mo7adis Medicament
+  void saveChanges(){
+    final updatedMed = Medicament(id: widget.id,
+       imagePath: imageController.text,
+       medName: nameController.text,
+       dosis: dosisController.text,
+       info: infoController.text);
+    widget.db.updateMedicament(widget.id, updatedMed);
+
+    Navigator.pop(context); // ein mal zurück
+    Navigator.pop(context); // zwei mal zurück home page
+
+  }
+
   @override
   void initState() {
     super.initState();
@@ -49,18 +66,8 @@ class _EditMedPageState extends State<EditMedPage> {
     super.dispose();
   }
 
-void saveChanges() {
-  final updatedMed = Medicament(
-    id: widget.id,
-    medName: nameController.text,
-    dosis: dosisController.text,
-    imagePath: imageController.text,
-    info: infoController.text,
-  );
 
-  widget.db.updateMedicament(widget.id, updatedMed);
-  Navigator.pop(context);
-}
+
 
   @override
   Widget build(BuildContext context) {

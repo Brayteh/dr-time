@@ -20,11 +20,6 @@ class ViewMedPage extends StatelessWidget {
     required this.info,
   });
 
-  void deleteMed(BuildContext context) {
-    db.deleteMedicament(id); // حذف من قاعدة البيانات
-    Navigator.pop(context); // العودة للصفحة السابقة
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,8 +50,8 @@ class ViewMedPage extends StatelessWidget {
                         ),
                       ),
                     );
-                    // تحديث الصفحة بعد التعديل
-                    (context as Element).reassemble();
+                    
+                   
                   },
                   icon: const Icon(Icons.edit),
                 ),

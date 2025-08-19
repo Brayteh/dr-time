@@ -2,6 +2,7 @@ import 'package:dr_time/domain/medicament.dart';
 
 import '../data/database_repository.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 class EditMedPage extends StatefulWidget {
   final DatabaseRepository db;
@@ -57,13 +58,22 @@ class _EditMedPageState extends State<EditMedPage> {
     imageController = TextEditingController(text: widget.imagePath);
   }
 
-  @override
+  @override // man3 tasarob zekra
   void dispose() {
     nameController.dispose();
     dosisController.dispose();
     infoController.dispose();
     imageController.dispose();
     super.dispose();
+  }
+  void _pickImage() async{
+    final picker = ImagePicker();
+    final PickedFile = await picker.pickImage(source: ImageSource.gallery);
+    if (PickedFile != null){
+      setState(() {
+        imageController.text = PickedFile.path;
+      });
+    }
   }
 
 
@@ -89,9 +99,17 @@ class _EditMedPageState extends State<EditMedPage> {
               decoration: const InputDecoration(labelText: "Dosis"),
             ),
             const SizedBox(height: 10),
-            TextField(
-              controller: imageController,
-              decoration: const InputDecoration(labelText: "Image Path"),
+            GestureDetector(
+              onTap: _pickImage,
+              child: AbsorbPointer(
+                child: TextField(
+                  controller: imageController,
+                  decoration: const InputDecoration(
+                    labelText: "Image Path",
+                    suffixIcon: Icon(Icons.photo_library),
+                    ),
+                ),
+              ),
             ),
             const SizedBox(height: 10),
             TextField(

@@ -1,6 +1,7 @@
 import 'package:dr_time/screens/sign_in_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -9,32 +10,66 @@ class ProfilePage extends StatefulWidget {
   State<ProfilePage> createState() => _ProfilePageState();
 }
 
-class _ProfilePageState extends State<ProfilePage> {
+class _ProfilePageState extends State<ProfilePage> with WidgetsBindingObserver {
 
   final _formKey = GlobalKey<FormState>();
   final _fNameCtrl = TextEditingController();
   final _lNameCtrl = TextEditingController();
   final _dbirthCtrl = TextEditingController();
+  final _diseaseCtrl = TextEditingController();
 
     @override
     void dispose(){
       _fNameCtrl.dispose();
       _lNameCtrl.dispose();
       _dbirthCtrl.dispose();
+      _diseaseCtrl.dispose();
+      WidgetsBinding.instance.removeObserver(this); // لإزالة المراقب عند الخروج
       super.dispose();
     }
-
-  void _submit() {
-    if (_formKey.currentState!.validate()) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            "Done!",
-          ),
-        ),
-      );
+      // هذه الدالة الجديدة التي ستقوم بتحديث البيانات
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      _loadData();
     }
   }
+  
+    void _saveData() async {   //save data input in the Phone
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('firstName', _fNameCtrl.text);
+    await prefs.setString('lastName', _lNameCtrl.text);
+    await prefs.setString('dateOfBirth', _dbirthCtrl.text);
+    await prefs.setString('diseaseName', _diseaseCtrl.text);
+  }
+    void _loadData() async {
+    final prefs = await SharedPreferences.getInstance();
+    _fNameCtrl.text = prefs.getString('firstName') ?? '';
+    _lNameCtrl.text = prefs.getString('lastName') ?? '';
+    _dbirthCtrl.text = prefs.getString('dateOfBirth') ?? '';
+    _diseaseCtrl.text = prefs.getString('diseaseName') ?? '';
+    setState(() {});
+    }
+    @override
+void initState() {
+  super.initState();
+  _loadData();   // استدعاء دالة التحميل هنا
+  WidgetsBinding.instance.addObserver(this); // لإضافة مراقب لدورة حياة التطبيق
+}
+
+void _submit() {
+  if (_formKey.currentState!.validate()) {
+    _saveData(); // استدعاء دالة الحفظ هنا
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text("Done!"),
+      ),
+    );
+  }
+}
+
+
+  
 
 
   @override
@@ -69,6 +104,7 @@ class _ProfilePageState extends State<ProfilePage> {
             Padding(padding: EdgeInsets.all(16), 
               //Border
             child: TextFormField(
+              controller: _fNameCtrl,
               validator: (value){
                 final v = value?.trim() ?? "";
                 if (v.isEmpty) return "please write your name";
@@ -87,6 +123,7 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
                Padding(padding: EdgeInsets.all(16),   //Border
             child: TextFormField(
+              controller: _lNameCtrl,
               validator: (value){
                 final v = value?.trim() ?? "";
                 if (v.isEmpty) return "please write your last name";
@@ -105,6 +142,7 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
             Padding(padding: EdgeInsets.all(16),
             child: TextFormField(
+              controller: _dbirthCtrl,
               validator: (value) {
                 final v = value?.trim() ?? "";
                 if (v.isEmpty) return "please enter your date of birth";
@@ -123,9 +161,11 @@ class _ProfilePageState extends State<ProfilePage> {
             child: Text("Disease name",style: TextStyle(fontSize: 22),),
             ),
             Padding(padding: EdgeInsets.all(16),
-            child: TextField( keyboardType: TextInputType.text,
+            child: TextField(
+              controller: _diseaseCtrl,
+              keyboardType: TextInputType.text,
               decoration: InputDecoration(
-                hintText: "your disease name",
+              hintText: "your disease name",
               ),
             ),
             ),

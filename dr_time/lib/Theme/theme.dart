@@ -41,4 +41,35 @@ class MyTheme {
         contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       ),
   );
+    static ThemeData dark = ThemeData(
+    brightness: Brightness.dark,
+    primaryColor: primaryColor,
+    scaffoldBackgroundColor: Colors.black,
+    fontFamily: 'Roboto',
+    textTheme: const TextTheme(
+      headlineLarge: TextStyle(fontSize: 32, fontWeight: FontWeight.bold, color: Colors.white),
+      bodyMedium: TextStyle(fontSize: 22, color: Colors.white70),
+      labelLarge: TextStyle(fontSize: 16, color: Colors.lightBlueAccent),
+    ),
+    appBarTheme: AppBarTheme(
+      backgroundColor: Colors.grey,
+      foregroundColor: Colors.white,
+      elevation: 0,
+    ),
+              inputDecorationTheme: InputDecorationTheme(      // für Borders
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide(color: Colors.blue,width: 2),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide(color: Colors.grey),
+        ),
+        contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      ),
+  );
+
 }

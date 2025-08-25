@@ -4,7 +4,9 @@ import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfilePage extends StatefulWidget {
-  const ProfilePage({super.key});
+  final bool isDark;
+  final Function(bool) onThemeChanged;
+  const ProfilePage({super.key, required this.isDark, required this.onThemeChanged});
 
   @override
   State<ProfilePage> createState() => _ProfilePageState();
@@ -91,7 +93,7 @@ void _submit() {
                   Padding(padding: EdgeInsets.only(right: 16),
                   child: IconButton(
                     icon: Icon(Icons.power_settings_new,color: Colors.red,size: 33,),
-                    onPressed: () {Navigator.push(context,MaterialPageRoute(builder: (context)=> LogInPage()));},
+                    onPressed: () {Navigator.push(context,MaterialPageRoute(builder: (context)=> LogInPage(isDark: widget.isDark,onThemeChanged: widget.onThemeChanged,)));},
                     ),
                     ),
               ],

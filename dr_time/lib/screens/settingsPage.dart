@@ -1,16 +1,26 @@
-import 'package:dr_time/Theme/switch.dart';
 import 'package:flutter/material.dart';
+import 'package:dr_time/Theme/switch.dart';
 
 class SettingsPage extends StatefulWidget {
-  const SettingsPage({super.key});
+  final bool isDark;
+  final Function(bool) onThemeChanged;
+
+  const SettingsPage({super.key, required this.isDark, required this.onThemeChanged});
 
   @override
   State<SettingsPage> createState() => _SettingsPageState();
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-  bool dark = false;
+  late bool dark;
   bool vibration = false;
+
+  @override
+  void initState() {
+    super.initState();
+    dark = widget.isDark;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,26 +48,10 @@ class _SettingsPageState extends State<SettingsPage> {
                     setState(() {
                       dark = value;
                     });
+                    widget.onThemeChanged(value); // يغير الثيم ويحفظ
                   },
                 ),
               ),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Text("Vibration",style: Theme.of(context).textTheme.bodyMedium),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: SwitchExample(value: vibration, onChanged: (bool value) {
-                    setState(() {
-                      vibration = value;
-                    });
-                  },),
-              )
             ],
           ),
         ],

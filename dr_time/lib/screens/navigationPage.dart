@@ -9,7 +9,9 @@ import '../data/database_repository.dart';
 
 
 class NavigationPage extends StatefulWidget {
-  const NavigationPage({super.key});
+  final bool isDark;
+  final Function(bool) onThemeChanged;
+  const NavigationPage({super.key, required this.isDark, required this.onThemeChanged});
 
   @override
   State<NavigationPage> createState() => _NavigationPageState();
@@ -32,9 +34,9 @@ class _NavigationPageState extends State<NavigationPage> {
     // نحدد الصفحات هنا علشان نمرر db لـ HomePage
     final List<Widget> pages = [
       HomePage(db: db),
-      const SearchPage(),
-      const ProfilePage(),
-      const SettingsPage(),
+       SearchPage(),
+       ProfilePage( isDark: widget.isDark, onThemeChanged: widget.onThemeChanged,),
+       SettingsPage( isDark: widget.isDark, onThemeChanged: widget.onThemeChanged,),
     ];
 
     return Scaffold(

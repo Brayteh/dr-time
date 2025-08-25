@@ -6,7 +6,9 @@ import 'package:flutter/material.dart';
 
 
 class LogInPage extends StatefulWidget {   //loginscreen
-  const LogInPage({super.key});
+  final bool isDark;
+  final Function(bool) onThemeChanged;
+  const LogInPage({super.key, required this.isDark, required this.onThemeChanged});
 
   @override
   State<LogInPage> createState() => _LogInPageState();
@@ -42,7 +44,8 @@ class _LogInPageState extends State<LogInPage> {
       if (email ==_correctUsername && password == _correctPassword){
 
         Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context)=> NavigationPage()),
+          MaterialPageRoute(builder: (context)=> NavigationPage(  isDark: widget.isDark,
+              onThemeChanged: widget.onThemeChanged,)),
           );
         
       } else{

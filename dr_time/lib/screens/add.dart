@@ -88,8 +88,9 @@ class _AddPageState extends State<AddPage> {
                     elevation: 2,
                     backgroundColor: const Color.fromARGB(255, 68, 202, 232),
                   ),
-                  onPressed: () {
-                    final newId = widget.db.readAllMedicamente().length + 1;
+                  onPressed: () async {
+                    final meds = await widget.db.readAllMedicamente();
+                    final newId = meds.length + 1;
 
                     final newMed = Medicament(
                       id: newId,
@@ -99,7 +100,7 @@ class _AddPageState extends State<AddPage> {
                       info: infoController.text,
                     );
 
-                    widget.db.createMedicament(newMed);
+                    await widget.db.createMedicament(newMed);
                     Navigator.pop(context);
                   },
                   child: const Text(

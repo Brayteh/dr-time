@@ -2,19 +2,19 @@ import 'package:dr_time/domain/medicament.dart';
 
 abstract class DatabaseRepository {
 
-List<Medicament> readAllMedicamente();
+Future<List<Medicament>> readAllMedicamente();
 
 
   // create
 
-void createMedicament(Medicament medicament);
+Future<void> createMedicament(Medicament medicament);
 
 
 // update
-void updateMedicament(int id, Medicament medicament,);
+Future<void> updateMedicament(int id, Medicament medicament,);
 
 // delete
-void deleteMedicament(int id);
+Future<void> deleteMedicament(int id);
 }
 
 

@@ -1,4 +1,5 @@
 import 'package:dr_time/Theme/medCard.dart';
+import 'package:dr_time/domain/medicament.dart';
 import 'package:dr_time/screens/add.dart';
 import 'package:dr_time/screens/viewMedPage.dart';
 import 'package:flutter/material.dart';
@@ -17,8 +18,6 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    final meds = widget.db.readAllMedicamente();
-
     return Scaffold(
       body: Column(
         children: [
@@ -63,43 +62,57 @@ class _HomePageState extends State<HomePage> {
               ),
             ],
           ),
+          // FutureBuilder to load medicaments from the database
           Expanded(
-            child: ListView.builder(
-              padding: const EdgeInsets.only(left: 8),
-              itemCount: meds.length,
-              itemBuilder: (context, index) {
-                final med = meds[index];
-                return Column(
-                  children: [
-                     GestureDetector(
-                      onTap: () {
-                      Navigator.push(
-                       context,
-                       MaterialPageRoute(
-                       builder: (context) => ViewMedPage(
-                       db: widget.db,
-                       id: med.id,
-                       medName: med.medName,
-                       imagePath: med.imagePath,
-                       info: med.info,
-                       dosis: med.dosis,
-                           ),
+            child: FutureBuilder<List<Medicament>>(
+              future: widget.db.readAllMedicamente(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                } else if (snapshot.hasError) {
+                  return Center(child: Text('Error: ${snapshot.error}'));
+                } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                  return const Center(child: Text('No medications found.'));
+                }
+                final meds = snapshot.data!;
+                return ListView.builder(
+                  padding: const EdgeInsets.only(left: 8),
+                  itemCount: meds.length,
+                  itemBuilder: (context, index) {
+                    final med = meds[index];
+                    return Column(
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ViewMedPage(
+                                  db: widget.db,
+                                  id: med.id,
+                                  medName: med.medName,
+                                  imagePath: med.imagePath,
+                                  info: med.info,
+                                  dosis: med.dosis,
+                                ),
+                              ),
+                            ).then((_) {
+                              setState(() {}); // هذا مهم لتحديث القائمة بعد الحذف
+                            });
+                          },
+                          child: MedCard(
+                            id: med.id,
+                            medName: med.medName,
+                            dosis: med.dosis,
+                            imagePath: med.imagePath,
+                            info: med.info,
                           ),
-                           ).then((_) {
-                           setState(() {}); // هذا مهم لتحديث القائمة بعد الحذف
-                          });
-                           },
-                      child: MedCard(
-                        id: med.id,
-                        medName: med.medName,
-                        dosis: med.dosis,
-                        imagePath: med.imagePath,
-                        info: med.info,
-                      ),
-                    ),
-                    const Divider(thickness: 1, indent: 20, endIndent: 20),
-                    const SizedBox(height: 10),
-                  ],
+                        ),
+                        const Divider(thickness: 1, indent: 20, endIndent: 20),
+                        const SizedBox(height: 10),
+                      ],
+                    );
+                  },
                 );
               },
             ),

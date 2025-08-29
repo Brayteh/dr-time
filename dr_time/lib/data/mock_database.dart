@@ -6,7 +6,8 @@ class MockDatabaseRepository implements DatabaseRepository {
    ];
 
   @override // create
-  void createMedicament(Medicament medicament) {
+  Future <void> createMedicament(Medicament medicament) async {
+    await Future.delayed(const Duration(seconds: 1)); // Simuliere eine Verzögerung
     _medicamente.add(medicament);
     print("Medikament added: ${medicament.medName}");
   }
@@ -14,7 +15,8 @@ class MockDatabaseRepository implements DatabaseRepository {
 
 
 @override // update
-void updateMedicament(int id, Medicament medicament) {
+Future <void> updateMedicament(int id, Medicament medicament) async {
+  await Future.delayed(const Duration(seconds: 1)); // Simuliere eine Verzögerung
   for (int i = 0; i < _medicamente.length; i++) {
     if (_medicamente[i].id == id) {
       _medicamente[i] = medicament;
@@ -26,14 +28,15 @@ void updateMedicament(int id, Medicament medicament) {
   }
 
   @override //delete
-  void deleteMedicament(int id) {
+  Future <void> deleteMedicament(int id) async {
+    await Future.delayed(const Duration(seconds: 1)); // Simuliere eine Verzögerung
     _medicamente.removeWhere((med) => med.id == id);
     print("Medikament mit ID $id wurde gelöscht.");
   }
 
   @override
-  List<Medicament> readAllMedicamente() {
-    // TODO: implement readAllMedicamente
+  Future <List<Medicament>> readAllMedicamente() async {
+    await Future.delayed(const Duration(seconds: 1));
     return _medicamente;
   }
 }

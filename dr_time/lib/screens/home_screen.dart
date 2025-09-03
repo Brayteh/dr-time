@@ -61,8 +61,7 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
             ],
-          ),
-          // FutureBuilder to load medicaments from the database
+          ),          // FutureBuilder to load medicaments from the database
           Expanded(
             child: FutureBuilder<List<Medicament>>(
               future: widget.db.readAllMedicamente(),
@@ -72,7 +71,7 @@ class _HomePageState extends State<HomePage> {
                 } else if (snapshot.hasError) {
                   return Center(child: Text('Error: ${snapshot.error}'));
                 } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                  return const Center(child: Text('No medications found.'));
+                  return const Center(child: Text('No medicaments found.'));
                 }
                 final meds = snapshot.data!;
                 return ListView.builder(
@@ -94,6 +93,7 @@ class _HomePageState extends State<HomePage> {
                                   imagePath: med.imagePath,
                                   info: med.info,
                                   dosis: med.dosis,
+                                  time: med.time,
                                 ),
                               ),
                             ).then((_) {
@@ -106,6 +106,7 @@ class _HomePageState extends State<HomePage> {
                             dosis: med.dosis,
                             imagePath: med.imagePath,
                             info: med.info,
+                            time: med.time,
                           ),
                         ),
                         const Divider(thickness: 1, indent: 20, endIndent: 20),

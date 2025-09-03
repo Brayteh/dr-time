@@ -11,6 +11,7 @@ class EditMedPage extends StatefulWidget {
   final String dosis;
   final String imagePath;
   final String info;
+  final String time;
 
   const EditMedPage({
     super.key,
@@ -20,6 +21,7 @@ class EditMedPage extends StatefulWidget {
     required this.dosis,
     required this.imagePath,
     required this.info,
+    required this.time,
   });
 
   @override
@@ -31,22 +33,27 @@ class _EditMedPageState extends State<EditMedPage> {
   late TextEditingController dosisController;
   late TextEditingController infoController;
   late TextEditingController imageController;
+  late TextEditingController timeController;
+  TimeOfDay? selectedTime; // for time picker
 
 
 
 
               // mo7adis Medicament
-  void saveChanges(){
-    final updatedMed = Medicament(id: widget.id,
-       imagePath: imageController.text,
-       medName: nameController.text,
-       dosis: dosisController.text,
-       info: infoController.text);
+  void saveChanges() {
+    final updatedMed = Medicament(
+      id: widget.id,
+      imagePath: imageController.text,
+      medName: nameController.text,
+      dosis: dosisController.text,
+      info: infoController.text,
+      time: timeController.text.isEmpty? 'undefined ': timeController.text,
+    );
+
     widget.db.updateMedicament(widget.id, updatedMed);
 
     Navigator.pop(context); // ein mal zurück
     Navigator.pop(context); // zwei mal zurück home page
-
   }
 
   @override
@@ -56,6 +63,8 @@ class _EditMedPageState extends State<EditMedPage> {
     dosisController = TextEditingController(text: widget.dosis);
     infoController = TextEditingController(text: widget.info);
     imageController = TextEditingController(text: widget.imagePath);
+    timeController = TextEditingController(text: widget.time);
+
   }
 
   @override // man3 tasarob zekra
@@ -64,6 +73,7 @@ class _EditMedPageState extends State<EditMedPage> {
     dosisController.dispose();
     infoController.dispose();
     imageController.dispose();
+    timeController.dispose();
     super.dispose();
   }
   void _pickImage() async{
@@ -72,6 +82,19 @@ class _EditMedPageState extends State<EditMedPage> {
     if (PickedFile != null){
       setState(() {
         imageController.text = PickedFile.path;
+      });
+    }
+  }
+
+  Future<void> _pickTime() async {
+    final picked = await showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.now(),
+    );
+    if (picked != null) {
+      setState(() {
+        selectedTime = picked;
+        timeController.text = picked.format(context);
       });
     }
   }
@@ -116,6 +139,20 @@ class _EditMedPageState extends State<EditMedPage> {
               controller: infoController,
               decoration: const InputDecoration(labelText: "Info"),
               maxLines: 3,
+            ),
+            const SizedBox(height: 10),
+            InkWell(
+              onTap: _pickTime,
+              child: InputDecorator(
+                decoration: const InputDecoration(
+                  labelText: "Time",
+                  border: OutlineInputBorder(),
+                  suffixIcon: Icon(Icons.access_time),
+                ),
+                child: Text(
+                  timeController.text.isNotEmpty ? timeController.text : "Time not selected" ,
+                ),
+              ),
             ),
             const SizedBox(height: 20),
             ElevatedButton(

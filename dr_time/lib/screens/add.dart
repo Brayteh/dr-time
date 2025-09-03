@@ -14,11 +14,13 @@ class AddPage extends StatefulWidget {
 }
 
 class _AddPageState extends State<AddPage> {
-  final TextEditingController nameController = TextEditingController();
-  final TextEditingController doseController = TextEditingController();
-  final TextEditingController infoController = TextEditingController();
-
+  final  nameController = TextEditingController();
+  final  doseController = TextEditingController();
+  final  infoController = TextEditingController();
+  final  timeController = TextEditingController();
+  
   File? _selectedImage;
+  TimeOfDay? _selectedTime;
 
   Future<void> _pickImage() async {
     final ImagePicker picker = ImagePicker();
@@ -27,6 +29,20 @@ class _AddPageState extends State<AddPage> {
     if (pickedFile != null) {
       setState(() {
         _selectedImage = File(pickedFile.path);
+      });
+    }
+  }
+
+    // اختيار وقت
+  Future<void> _pickTime() async {
+    final TimeOfDay? picked = await showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.now(),
+    );
+    if (picked != null) {
+      setState(() {
+        _selectedTime = picked;
+        timeController.text = picked.format(context); // حفظه كنص
       });
     }
   }
@@ -60,6 +76,27 @@ class _AddPageState extends State<AddPage> {
             // Info
             _buildLabel("Info"),
             _buildTextField(infoController, "exp: the number of times per day"),
+
+            // Time
+            _buildLabel("Time"),
+            Padding(padding:  const EdgeInsets.all(16),
+              child:  InkWell(
+                onTap: _pickTime,
+                child: InputDecorator( 
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: "Select Time",
+                    ),
+                    child: Text(
+                      _selectedTime != null
+                          ? _selectedTime!.format(context)
+                          : "Time not selected",
+                      style: const TextStyle(fontSize: 16),
+                    )
+                  ),
+                ),
+              ),
+            
 
             // زر اختيار صورة
             Padding(
@@ -98,6 +135,7 @@ class _AddPageState extends State<AddPage> {
                       medName: nameController.text,
                       dosis: doseController.text,
                       info: infoController.text,
+                      time: timeController.text.isEmpty ? 'undefined' : timeController.text,
                     );
 
                     await widget.db.createMedicament(newMed);

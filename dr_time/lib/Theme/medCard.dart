@@ -6,6 +6,7 @@ class MedCard extends StatelessWidget {
   final String imagePath;
   final String dosis;
   final String info;
+  final String? time;
 
   const MedCard({
     super.key,
@@ -14,6 +15,7 @@ class MedCard extends StatelessWidget {
     required this.imagePath,
     required this.dosis,
     required this.info,
+    this.time,
   });
 
   @override
@@ -52,6 +54,12 @@ class MedCard extends StatelessWidget {
             Text(
               info,
               style: const TextStyle(fontSize: 14, color: Colors.black54),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 4),
+            Text(
+              time != null ? 'Time: $time' : 'No time set',
+              style: const TextStyle(fontSize: 14, color: Colors.green),
               textAlign: TextAlign.center,
             ),
           ],

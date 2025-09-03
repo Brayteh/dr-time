@@ -9,6 +9,7 @@ class ViewMedPage extends StatelessWidget {
   final String dosis;
   final String imagePath;
   final String info;
+  final String? time;
 
   const ViewMedPage({
     super.key,
@@ -18,6 +19,7 @@ class ViewMedPage extends StatelessWidget {
     required this.dosis,
     required this.imagePath,
     required this.info,
+    this.time,
   });
 
   @override
@@ -47,6 +49,7 @@ class ViewMedPage extends StatelessWidget {
                           dosis: dosis,
                           imagePath: imagePath,
                           info: info,
+                          time: time ?? '',
                         ),
                       ),
                     );
@@ -114,6 +117,11 @@ class ViewMedPage extends StatelessWidget {
               info,
               style: const TextStyle(fontSize: 16),
               textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 10),
+            Text(
+              time != null ? 'Time: $time' : 'No time set',
+              style: const TextStyle(fontSize: 16, color: Colors.green),
             ),
           ],
         ),

@@ -5,6 +5,7 @@ class Medicament {
   final String medName;
   final String dosis;
   final String info;
+  final String time;
 
 
   const Medicament({
@@ -13,6 +14,7 @@ class Medicament {
     required this.medName,
     required this.dosis,
     required this.info,
+     required this.time,
 
   });
 
@@ -22,6 +24,7 @@ class Medicament {
     String? medName,
     String? dosis,
     String? info,
+    String? time,
   }) {
     
     return Medicament(
@@ -30,9 +33,12 @@ class Medicament {
       medName: medName ?? this.medName,
       dosis: dosis ?? this.dosis,
       info: info ?? this.info,
+      time: time ?? this.time,
     );
   }
 
   factory Medicament.empty() =>
-      const Medicament(id: 0,imagePath: "", medName: "",dosis: "", info:"");
+      const Medicament(id: 0,imagePath: "", medName: "",dosis: "", info:"", time: "");
+      
+      
 }

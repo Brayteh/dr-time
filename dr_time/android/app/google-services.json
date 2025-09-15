@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1081704102191",
+    "project_id": "jakop-5b0d2",
+    "storage_bucket": "jakop-5b0d2.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1081704102191:android:90bd1cd69a35b9efba89da",
+        "android_client_info": {
+          "package_name": "com.example.dr_time"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBp-QabFQhmPDNsXqt8vbEXG5MH41q-5o4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

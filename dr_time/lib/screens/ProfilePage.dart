@@ -1,4 +1,5 @@
 import 'package:dr_time/screens/sign_in_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -90,12 +91,24 @@ void _submit() {
                   padding: const EdgeInsets.only(left: 16),
                   child: Text("Profile",style:TextStyle(fontSize: 32,fontWeight: FontWeight.bold),  ),   //profile
                   ),
-                  Padding(padding: EdgeInsets.only(right: 16),
-                  child: IconButton(
-                    icon: Icon(Icons.power_settings_new,color: Colors.red,size: 33,),
-                    onPressed: () {Navigator.push(context,MaterialPageRoute(builder: (context)=> LogInPage(isDark: widget.isDark,onThemeChanged: widget.onThemeChanged,)));},
+                  Padding(
+                    padding: EdgeInsets.only(right: 16),
+                    child: IconButton(
+                      icon: Icon(Icons.power_settings_new, color: Colors.red, size: 33),
+                      onPressed: () async {
+                        await FirebaseAuth.instance.signOut();
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => LogInPage(
+                              isDark: widget.isDark,
+                              onThemeChanged: widget.onThemeChanged,
+                            ),
+                          ),
+                        );
+                      },
                     ),
-                    ),
+                  ),
               ],
             ),
             SizedBox(height: 25,),

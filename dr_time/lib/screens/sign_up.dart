@@ -1,4 +1,5 @@
 import 'package:dr_time/Theme/switch.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class SignUpPage extends StatefulWidget {
@@ -10,9 +11,59 @@ class SignUpPage extends StatefulWidget {
 
 class _SignUpPageState extends State<SignUpPage> {
   bool term = false;
+  final  emailController = TextEditingController();
+  final  passwordController = TextEditingController();
+  final  confirmController = TextEditingController();
+
+  Future<void> _register() async {
+    if (!term) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("please accept the terms and conditions")),
+      );
+      return;
+    }
+    if (passwordController.text != confirmController.text) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Passwords do not match")),
+      );
+      return;
+    }
+    try {
+  await FirebaseAuth.instance.createUserWithEmailAndPassword(
+    email: emailController.text.trim(),
+    password: passwordController.text,
+  );
+
+  ScaffoldMessenger.of(context).showSnackBar(
+    const SnackBar(content: Text("✅ Registration successful")),
+  );
+
+  Navigator.pop(context); // Back to Login Page
+} on FirebaseAuthException catch (e) {
+  String message = "";
+  if (e.code == 'email-already-in-use') {
+    message = "📧 This email is already in use";
+  } else if (e.code == 'invalid-email') {
+    message = "❌ The email format is invalid";
+  } else if (e.code == 'weak-password') {
+    message = "🔑 The password is too weak (minimum 6 characters)";
+  } else {
+    message = "⚠️ Unexpected error: ${e.message}";
+  }
+
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(content: Text(message)),
+  );
+} catch (e) {
+  ScaffoldMessenger.of(context).showSnackBar(
+    const SnackBar(content: Text("⚠️ Unknown error")),
+  );
+}
+  }
+
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
+    return Scaffold(
       appBar: AppBar(automaticallyImplyLeading: true,),
       body: SingleChildScrollView(
         child: Column(
@@ -75,6 +126,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 Padding(                                           // Border
                 padding: EdgeInsets.all(10),
                  child: TextField(
+                  controller: emailController,
                   keyboardType: TextInputType.emailAddress,
                   decoration: InputDecoration(
                     label: Text("enter your Email address"),),
@@ -86,8 +138,9 @@ class _SignUpPageState extends State<SignUpPage> {
               ),
                 Padding(                                           // Border
                 padding: EdgeInsets.all(10),
-                child: TextField(obscureText: true,
-                  keyboardType: TextInputType.emailAddress,
+                child: TextField(
+                  controller: passwordController,
+                  obscureText: true,
                   decoration: InputDecoration(
                     label: Text("enter your password"),),
                 ),
@@ -99,7 +152,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 Padding(                                           // Border
                    padding: EdgeInsets.all(10),
                   child: TextField( obscureText: true,
-                  keyboardType: TextInputType.emailAddress,
+                  controller: confirmController,
                   decoration: InputDecoration(
                     label: Text("confirm your password"),),
                 ),
@@ -110,7 +163,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 width: 200, // العرض المطلوب
                 child: ElevatedButton(
                 style: ElevatedButton.styleFrom(elevation: 2,backgroundColor: const Color.fromARGB(255, 68, 202, 232)),
-                onPressed: () {},
+                onPressed: _register,
                 child:
                    Text("Sign Up",style:TextStyle(fontSize: 23,fontWeight: FontWeight.bold, color: Colors.white),),
             ),

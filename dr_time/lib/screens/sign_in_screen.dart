@@ -1,7 +1,8 @@
-
-
 import 'package:dr_time/screens/navigationPage.dart';
 import 'package:dr_time/screens/sign_up.dart';
+import 'package:firebase_core/firebase_core.dart';
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 
@@ -15,45 +16,58 @@ class LogInPage extends StatefulWidget {   //loginscreen
 }
 
 class _LogInPageState extends State<LogInPage> {
-
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
-
-  //true user pass
-  final String _correctUsername = "jakop@gmail.com";
-  final String _correctPassword = "12345";
-  //error email
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
 
   String? _emailErrorText;
-  
-  
-    @override
-    void dispose(){
-      _emailController.dispose();
-      _passwordController.dispose();
-      super.dispose();
-    }
-    // methode lal ta7a2o2 mn tsjel du5ul
-    void _login(){
-      final String email = _emailController.text;
-      final String password = _passwordController.text;
-      //fina hon ndif print lal console 
-      setState(() {
-        _emailErrorText = null;
-      });
-      if (email ==_correctUsername && password == _correctPassword){
 
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context)=> NavigationPage(  isDark: widget.isDark,
-              onThemeChanged: widget.onThemeChanged,)),
-          );
-        
-      } else{
-        setState(() {
-          _emailErrorText = "invalid username or password";
-        });
-      }
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _login() async {
+    final String email = _emailController.text.trim();
+    final String password = _passwordController.text;
+
+    setState(() {
+      _emailErrorText = null;
+    });
+
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      // النجاح: انتقل للصفحة الرئيسية
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (context) => NavigationPage(
+            isDark: widget.isDark,
+            onThemeChanged: widget.onThemeChanged,
+          ),
+        ),
+      );
+    } on FirebaseAuthException catch (e) {
+      print("Login failed: ${e.code} - ${e.message}");
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(e.message ?? "Login failed")),
+      );
+      setState(() {
+        _emailErrorText = e.message ?? "Login failed";
+      });
+    } catch (e) {
+      print("Unknown login error: $e");
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Unknown login error")),
+      );
+      setState(() {
+        _emailErrorText = "Unknown login error";
+      });
     }
+  }
   
 
   @override

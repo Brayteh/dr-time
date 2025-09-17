@@ -1,12 +1,11 @@
-import 'package:dr_time/data/mock_database.dart';
 import 'package:dr_time/screens/ProfilePage.dart';
 import 'package:dr_time/screens/home_screen.dart';
 import 'package:dr_time/screens/searchPage.dart';
 import 'package:dr_time/screens/settingsPage.dart';
 import 'package:flutter/material.dart';
+import '../data/mock_database.dart';
 
 import '../data/database_repository.dart';
-
 
 class NavigationPage extends StatefulWidget {
   final bool isDark;
@@ -20,23 +19,21 @@ class NavigationPage extends StatefulWidget {
 class _NavigationPageState extends State<NavigationPage> {
   int _selectedIndex = 0;
 
-  //       one db for all pages
-  late final DatabaseRepository db;
+   final DatabaseRepository db = MockDatabaseRepository();
 
   @override
   void initState() {
     super.initState();
-    db = MockDatabaseRepository() as DatabaseRepository; // أو استبدله بقاعدة بيانات حقيقية لاحقًا
+    
   }
 
   @override
   Widget build(BuildContext context) {
-    // نحدد الصفحات هنا علشان نمرر db لـ HomePage
     final List<Widget> pages = [
       HomePage(db: db),
-       SearchPage(),
-       ProfilePage( isDark: widget.isDark, onThemeChanged: widget.onThemeChanged,),
-       SettingsPage( isDark: widget.isDark, onThemeChanged: widget.onThemeChanged,),
+      SearchPage(),
+      ProfilePage(isDark: widget.isDark, onThemeChanged: widget.onThemeChanged),
+      SettingsPage(isDark: widget.isDark, onThemeChanged: widget.onThemeChanged),
     ];
 
     return Scaffold(

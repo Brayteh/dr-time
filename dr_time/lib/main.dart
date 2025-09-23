@@ -14,7 +14,6 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   
-  // تهيئة SharedPreferences واسترجاع حالة الوضع المظلم
   final prefs = await SharedPreferences.getInstance();
   bool isDark = prefs.getBool("darkMode") ?? false;
   

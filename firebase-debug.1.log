@@ -1,0 +1,36 @@
+[debug] [2025-09-19T08:16:51.907Z] ----------------------------------------------------------------------
+[debug] [2025-09-19T08:16:51.910Z] Command:       /opt/homebrew/Cellar/node/24.7.0/bin/node /opt/homebrew/bin/firebase init emulators
+[debug] [2025-09-19T08:16:51.910Z] CLI Version:   14.16.0
+[debug] [2025-09-19T08:16:51.910Z] Platform:      darwin
+[debug] [2025-09-19T08:16:51.910Z] Node Version:  v24.7.0
+[debug] [2025-09-19T08:16:51.911Z] Time:          Fri Sep 19 2025 11:16:51 GMT+0300 (Eastern European Summer Time)
+[debug] [2025-09-19T08:16:51.911Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2025-09-19T08:16:51.915Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-09-19T08:16:51.915Z] > authorizing via signed-in user (ya3koub5@gmail.com)
+[info] 
+     ######## #### ########  ######## ########     ###     ######  ########
+     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
+     ######    ##  ########  ######   ########  #########  ######  ######
+     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
+     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+
+You're about to initialize a Firebase project in this directory:
+
+  /Users/mohbrayt/Desktop/Projekt/Apps/dr-time
+
+[info] 
+=== Project Setup
+[info] 
+[info] First, let's associate this project directory with a Firebase project.
+[info] You can create multiple project aliases by running firebase use --add, 
+[info] but for now we'll just set up a default project.
+[info] 
+[debug] [2025-09-19T08:17:18.211Z] Checked if tokens are valid: true, expires at: 1758273228586
+[debug] [2025-09-19T08:17:18.211Z] Checked if tokens are valid: true, expires at: 1758273228586
+[debug] [2025-09-19T08:17:18.212Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects pageSize=100
+[debug] [2025-09-19T08:17:18.816Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects 200
+[debug] [2025-09-19T08:17:18.816Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects [omitted]
+[info] i  Using project jakop-5b0d2 (Jakop) 
+[info] 
+=== Emulators Setup

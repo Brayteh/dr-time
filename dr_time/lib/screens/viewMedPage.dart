@@ -1,6 +1,6 @@
 import 'package:dr_time/screens/edit.dart';
 import 'package:flutter/material.dart';
-import '../data/database_repository.dart';
+import 'package:dr_time/data/firestore_dbRepo.dart';
 
 class ViewMedPage extends StatelessWidget {
   final DatabaseRepository db;

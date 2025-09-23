@@ -3,9 +3,8 @@ import 'package:dr_time/screens/home_screen.dart';
 import 'package:dr_time/screens/searchPage.dart';
 import 'package:dr_time/screens/settingsPage.dart';
 import 'package:flutter/material.dart';
-import '../data/mock_database.dart';
 
-import '../data/database_repository.dart';
+import '../data/firestore_dbRepo.dart'; // Import FirestoreDatabaseRepository
 
 class NavigationPage extends StatefulWidget {
   final bool isDark;
@@ -19,12 +18,11 @@ class NavigationPage extends StatefulWidget {
 class _NavigationPageState extends State<NavigationPage> {
   int _selectedIndex = 0;
 
-   final DatabaseRepository db = MockDatabaseRepository();
+  final DatabaseRepository db = FirestoreDatabaseRepository(); // Use Firestore
 
   @override
   void initState() {
     super.initState();
-    
   }
 
   @override

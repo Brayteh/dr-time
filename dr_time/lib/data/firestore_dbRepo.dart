@@ -2,6 +2,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dr_time/data/firestore_dbRepo.dart';
 import 'package:dr_time/domain/medicament.dart';
 
+abstract class DatabaseRepository {
+  Future<List<Medicament>> readAllMedicamente();
+  Future<void> createMedicament(Medicament medicament);
+  Future<void> updateMedicament(int id, Medicament medicament);
+  Future<void> deleteMedicament(int id);
+}
+
 class FirestoreDatabaseRepository implements DatabaseRepository {
   final CollectionReference medicamentsCollection =
       FirebaseFirestore.instance.collection('medicaments');
@@ -29,3 +36,6 @@ class FirestoreDatabaseRepository implements DatabaseRepository {
     await medicamentsCollection.doc(id.toString()).delete();
   }
 }
+
+
+

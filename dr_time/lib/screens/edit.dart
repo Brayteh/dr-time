@@ -1,6 +1,6 @@
 import 'package:dr_time/domain/medicament.dart';
 
-import '../data/database_repository.dart';
+import 'package:dr_time/data/firestore_dbRepo.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 

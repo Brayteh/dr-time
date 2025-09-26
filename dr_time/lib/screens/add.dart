@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:dr_time/data/firestore_dbRepo.dart';
+import 'package:dr_time/data/database_repository.dart';
 import 'package:dr_time/domain/medicament.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -126,11 +126,8 @@ class _AddPageState extends State<AddPage> {
                     backgroundColor: const Color.fromARGB(255, 68, 202, 232),
                   ),
                   onPressed: () async {
-                    final meds = await widget.db.readAllMedicamente();
-                    final newId = meds.length + 1;
-
                     final newMed = Medicament(
-                      id: newId,
+                      id: '', // Firestore will generate the ID
                       imagePath: _selectedImage?.path ?? "images/default.avif",
                       medName: nameController.text,
                       dosis: doseController.text,

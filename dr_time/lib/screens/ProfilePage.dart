@@ -1,8 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dr_time/screens/sign_in_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfilePage extends StatefulWidget {
   final bool isDark;
@@ -13,7 +13,7 @@ class ProfilePage extends StatefulWidget {
   State<ProfilePage> createState() => _ProfilePageState();
 }
 
-class _ProfilePageState extends State<ProfilePage> with WidgetsBindingObserver {
+class _ProfilePageState extends State<ProfilePage> {
 
   final _formKey = GlobalKey<FormState>();
   final _fNameCtrl = TextEditingController();
@@ -21,43 +21,50 @@ class _ProfilePageState extends State<ProfilePage> with WidgetsBindingObserver {
   final _dbirthCtrl = TextEditingController();
   final _diseaseCtrl = TextEditingController();
 
-    @override
-    void dispose(){
-      _fNameCtrl.dispose();
-      _lNameCtrl.dispose();
-      _dbirthCtrl.dispose();
-      _diseaseCtrl.dispose();
-      WidgetsBinding.instance.removeObserver(this); // لإزالة المراقب عند الخروج
-      super.dispose();
+  // Helper to get the user document reference
+  DocumentReference _getUserDocRef() {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) {
+      throw Exception("User not logged in!");
     }
-      // هذه الدالة الجديدة التي ستقوم بتحديث البيانات
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.resumed) {
-      _loadData();
-    }
+    return FirebaseFirestore.instance.collection('users').doc(user.uid);
   }
   
-    void _saveData() async {   //save data input in the Phone
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString('firstName', _fNameCtrl.text);
-    await prefs.setString('lastName', _lNameCtrl.text);
-    await prefs.setString('dateOfBirth', _dbirthCtrl.text);
-    await prefs.setString('diseaseName', _diseaseCtrl.text);
-  }
-    void _loadData() async {
-    final prefs = await SharedPreferences.getInstance();
-    _fNameCtrl.text = prefs.getString('firstName') ?? '';
-    _lNameCtrl.text = prefs.getString('lastName') ?? '';
-    _dbirthCtrl.text = prefs.getString('dateOfBirth') ?? '';
-    _diseaseCtrl.text = prefs.getString('diseaseName') ?? '';
-    setState(() {});
+  void _saveData() async {
+    try {
+      await _getUserDocRef().set({
+        'firstName': _fNameCtrl.text,
+        'lastName': _lNameCtrl.text,
+        'dateOfBirth': _dbirthCtrl.text,
+        'diseaseName': _diseaseCtrl.text,
+      }, SetOptions(merge: true)); // merge:true creates or updates
+    } catch (e) {
+      // Handle error, maybe show a SnackBar
+      print("Error saving profile data: $e");
     }
-    @override
+  }
+
+  void _loadData() async {
+    try {
+      final doc = await _getUserDocRef().get();
+      if (doc.exists && doc.data() != null) {
+        final data = doc.data() as Map<String, dynamic>;
+        _fNameCtrl.text = data['firstName'] ?? '';
+        _lNameCtrl.text = data['lastName'] ?? '';
+        _dbirthCtrl.text = data['dateOfBirth'] ?? '';
+        _diseaseCtrl.text = data['diseaseName'] ?? '';
+        if (mounted) setState(() {});
+      }
+    } catch (e) {
+      // Handle error
+      print("Error loading profile data: $e");
+    }
+  }
+
+  @override
 void initState() {
   super.initState();
   _loadData();   // استدعاء دالة التحميل هنا
-  WidgetsBinding.instance.addObserver(this); // لإضافة مراقب لدورة حياة التطبيق
 }
 
 void _submit() {
@@ -71,8 +78,15 @@ void _submit() {
   }
 }
 
+  @override
+  void dispose(){
+    _fNameCtrl.dispose();
+    _lNameCtrl.dispose();
+    _dbirthCtrl.dispose();
+    _diseaseCtrl.dispose();
+    super.dispose();
+  }
 
-  
 
 
   @override

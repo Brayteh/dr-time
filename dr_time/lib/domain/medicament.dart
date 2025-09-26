@@ -1,5 +1,5 @@
 class Medicament {
-  final int id;
+  final String id; // Hinzugefügt
   final String imagePath;
   final String medName;
   final String dosis;
@@ -16,7 +16,7 @@ class Medicament {
   });
 
   Medicament copyWith({
-    int? id,
+    String? id,
     String? imagePath,
     String? medName,
     String? dosis,
@@ -34,7 +34,7 @@ class Medicament {
   }
 
   factory Medicament.empty() =>
-      const Medicament(id: 0, imagePath: "", medName: "", dosis: "", info: "", time: "");
+      const Medicament(id: "", imagePath: "", medName: "", dosis: "", info: "", time: "");
 
   Map<String, dynamic> toMap() {
     return {
@@ -47,9 +47,9 @@ class Medicament {
     };
   }
 
-  factory Medicament.fromMap(Map<String, dynamic> map) {
+  factory Medicament.fromMap(Map<String, dynamic> map, String documentId) {
     return Medicament(
-      id: map['id'] ?? 0,
+      id: documentId, // Verwende die Dokument-ID
       imagePath: map['imagePath'] ?? "",
       medName: map['medName'] ?? "",
       dosis: map['dosis'] ?? "",

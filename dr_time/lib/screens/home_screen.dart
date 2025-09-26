@@ -1,9 +1,10 @@
 import 'package:dr_time/Theme/medCard.dart';
+import 'package:dr_time/data/database_repository.dart';
 import 'package:dr_time/domain/medicament.dart';
 import 'package:dr_time/screens/add.dart';
 import 'package:dr_time/screens/viewMedPage.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
 import 'package:dr_time/data/firestore_dbRepo.dart';
 
 
@@ -16,6 +17,17 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  User? _user;
+
+  @override
+  void initState() {
+    super.initState();
+    // Listen to auth state changes
+    FirebaseAuth.instance.authStateChanges().listen((User? user) {
+      if (mounted) setState(() => _user = user);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,7 +48,7 @@ class _HomePageState extends State<HomePage> {
                         builder: (context) => AddPage(db: widget.db),
                       ),
                     ).then((_) {
-                      setState(() {}); // update nach adden 
+                      setState(() {}); // update nach adden
                     });
                   },
                   child: Row(
@@ -63,16 +75,23 @@ class _HomePageState extends State<HomePage> {
             ],
           ),          // FutureBuilder to load medicaments from the database
           Expanded(
-            child: FutureBuilder<List<Medicament>>(
-              future: widget.db.readAllMedicamente(),
+            child: _user == null
+                ? const Center(child: CircularProgressIndicator())
+                : StreamBuilder<List<Medicament>>(
+              stream: widget.db.readAllMedicamenteStream(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(child: CircularProgressIndicator());
                 } else if (snapshot.hasError) {
                   return Center(child: Text('Error: ${snapshot.error}'));
                 } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                  return const Center(child: Text('No medicaments found.'));
+                  return const Center(
+                      child: Text(
+                    'No medicaments found. Click "Add" to start.',
+                    textAlign: TextAlign.center,
+                  ));
                 }
+
                 final meds = snapshot.data!;
                 return ListView.builder(
                   padding: const EdgeInsets.only(left: 8),
@@ -87,13 +106,8 @@ class _HomePageState extends State<HomePage> {
                               context,
                               MaterialPageRoute(
                                 builder: (context) => ViewMedPage(
-                                  db: widget.db,
-                                  id: med.id,
-                                  medName: med.medName,
-                                  imagePath: med.imagePath,
-                                  info: med.info,
-                                  dosis: med.dosis,
-                                  time: med.time,
+                                  db: widget.db as FirestoreDatabaseRepository,
+                                  medicament: med,
                                 ),
                               ),
                             ).then((_) {
@@ -101,7 +115,7 @@ class _HomePageState extends State<HomePage> {
                             });
                           },
                           child: MedCard(
-                            id: med.id,
+                            id: int.tryParse(med.id) ?? 0,
                             medName: med.medName,
                             dosis: med.dosis,
                             imagePath: med.imagePath,

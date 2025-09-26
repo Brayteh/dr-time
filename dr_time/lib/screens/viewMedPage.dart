@@ -1,25 +1,17 @@
-import 'package:dr_time/screens/edit.dart';
-import 'package:flutter/material.dart';
 import 'package:dr_time/data/firestore_dbRepo.dart';
+import 'package:dr_time/screens/edit.dart';
+import 'dart:io';
+import 'package:flutter/material.dart';
+import 'package:dr_time/domain/medicament.dart'; // Importiere Medicament-Klasse
 
 class ViewMedPage extends StatelessWidget {
-  final DatabaseRepository db;
-  final int id;
-  final String medName;
-  final String dosis;
-  final String imagePath;
-  final String info;
-  final String? time;
+  final FirestoreDatabaseRepository db; // Verwende FirestoreDatabaseRepository
+  final Medicament medicament; // Verwende Medicament-Klasse
 
   const ViewMedPage({
     super.key,
     required this.db,
-    required this.id,
-    required this.medName,
-    required this.dosis,
-    required this.imagePath,
-    required this.info,
-    this.time,
+    required this.medicament,
   });
 
   @override
@@ -27,7 +19,7 @@ class ViewMedPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: true,
-        title: Text(medName),
+        title: Text(medicament.medName),
       ),
       body: Center(
         child: Column(
@@ -44,17 +36,10 @@ class ViewMedPage extends StatelessWidget {
                       MaterialPageRoute(
                         builder: (context) => EditMedPage(
                           db: db,
-                          id: id,
-                          medName: medName,
-                          dosis: dosis,
-                          imagePath: imagePath,
-                          info: info,
-                          time: time ?? '',
+                          medicament: medicament,
                         ),
                       ),
                     );
-                    
-                   
                   },
                   icon: const Icon(Icons.edit),
                 ),
@@ -76,8 +61,8 @@ class ViewMedPage extends StatelessWidget {
                             child: const Text("Cancel"),
                           ),
                           TextButton(
-                            onPressed: () {
-                              db.deleteMedicament(id);
+                            onPressed: () async {
+                              await db.deleteMedicament(medicament.id); // Verwende Firestore zum Löschen
                               Navigator.of(ctx).pop();
                               Navigator.of(context).pop();
                             },
@@ -94,33 +79,36 @@ class ViewMedPage extends StatelessWidget {
                 ),
               ],
             ),
-
-            Image.asset(
-              imagePath,
-              width: 200,
-              height: 200,
-              fit: BoxFit.cover,
-            ),
+            // Use Image.file for local paths and Image.asset for bundled assets
+            medicament.imagePath.startsWith('images/')
+                ? Image.asset(
+                    medicament.imagePath,
+                    width: 200, height: 200, fit: BoxFit.cover,
+                  )
+                : Image.file(
+                    File(medicament.imagePath),
+                    width: 200, height: 200, fit: BoxFit.cover,
+                  ),
             const SizedBox(height: 20),
             Text(
-              medName,
+              medicament.medName,
               style: const TextStyle(
                   fontSize: 24, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 20),
             Text(
-              dosis,
+              medicament.dosis,
               style: const TextStyle(fontSize: 18, color: Colors.blue),
             ),
             const SizedBox(height: 10),
             Text(
-              info,
+              medicament.info,
               style: const TextStyle(fontSize: 16),
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 10),
             Text(
-              time != null ? 'Time: $time' : 'No time set',
+              medicament.time != null ? 'Time: ${medicament.time}' : 'No time set',
               style: const TextStyle(fontSize: 16, color: Colors.green),
             ),
           ],

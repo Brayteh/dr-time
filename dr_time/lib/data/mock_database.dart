@@ -1,8 +1,5 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dr_time/data/firestore_dbRepo.dart';
-import 'package:dr_time/domain/medicament.dart';
 
-class FirestoreDatabaseRepository implements DatabaseRepository {
+/*class FirestoreDatabaseRepository implements DatabaseRepository {
   final CollectionReference medicamentsCollection =
       FirebaseFirestore.instance.collection('medicaments');
 
@@ -29,3 +26,4 @@ class FirestoreDatabaseRepository implements DatabaseRepository {
     await medicamentsCollection.doc(id.toString()).delete();
   }
 }
+*/

@@ -1,27 +1,16 @@
-import 'package:dr_time/domain/medicament.dart';
-
 import 'package:dr_time/data/firestore_dbRepo.dart';
+import 'package:dr_time/domain/medicament.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 class EditMedPage extends StatefulWidget {
-  final DatabaseRepository db;
-  final int id;
-  final String medName;
-  final String dosis;
-  final String imagePath;
-  final String info;
-  final String time;
+  final FirestoreDatabaseRepository db;
+  final Medicament medicament;
 
   const EditMedPage({
     super.key,
     required this.db,
-    required this.id,
-    required this.medName,
-    required this.dosis,
-    required this.imagePath,
-    required this.info,
-    required this.time,
+    required this.medicament,
   });
 
   @override
@@ -36,35 +25,47 @@ class _EditMedPageState extends State<EditMedPage> {
   late TextEditingController timeController;
   TimeOfDay? selectedTime; // for time picker
 
-
-
-
-              // mo7adis Medicament
-  void saveChanges() {
+  // mo7adis Medicament
+  void saveChanges() async {
     final updatedMed = Medicament(
-      id: widget.id,
+      id: widget.medicament.id,
       imagePath: imageController.text,
       medName: nameController.text,
       dosis: dosisController.text,
       info: infoController.text,
-      time: timeController.text.isEmpty? 'undefined ': timeController.text,
+      time: timeController.text.isEmpty ? 'undefined ' : timeController.text,
     );
 
-    widget.db.updateMedicament(widget.id, updatedMed);
-
-    Navigator.pop(context); // ein mal zurück
-    Navigator.pop(context); // zwei mal zurück home page
+    try {
+      await widget.db.updateMedicament(widget.medicament.id, updatedMed);
+      Navigator.pop(context); // ein mal zurück
+      Navigator.pop(context); // zwei mal zurück home page
+    } catch (e) {
+      // Zeige eine Fehlermeldung an
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text("Error"),
+          content: Text("Failed to update medicament: $e"),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text("OK"),
+            ),
+          ],
+        ),
+      );
+    }
   }
 
   @override
   void initState() {
     super.initState();
-    nameController = TextEditingController(text: widget.medName);
-    dosisController = TextEditingController(text: widget.dosis);
-    infoController = TextEditingController(text: widget.info);
-    imageController = TextEditingController(text: widget.imagePath);
-    timeController = TextEditingController(text: widget.time);
-
+    nameController = TextEditingController(text: widget.medicament.medName);
+    dosisController = TextEditingController(text: widget.medicament.dosis);
+    infoController = TextEditingController(text: widget.medicament.info);
+    imageController = TextEditingController(text: widget.medicament.imagePath);
+    timeController = TextEditingController(text: widget.medicament.time);
   }
 
   @override // man3 tasarob zekra
@@ -76,10 +77,11 @@ class _EditMedPageState extends State<EditMedPage> {
     timeController.dispose();
     super.dispose();
   }
-  void _pickImage() async{
+
+  void _pickImage() async {
     final picker = ImagePicker();
     final PickedFile = await picker.pickImage(source: ImageSource.gallery);
-    if (PickedFile != null){
+    if (PickedFile != null) {
       setState(() {
         imageController.text = PickedFile.path;
       });
@@ -98,9 +100,6 @@ class _EditMedPageState extends State<EditMedPage> {
       });
     }
   }
-
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -130,7 +129,7 @@ class _EditMedPageState extends State<EditMedPage> {
                   decoration: const InputDecoration(
                     labelText: "Image Path",
                     suffixIcon: Icon(Icons.photo_library),
-                    ),
+                  ),
                 ),
               ),
             ),
@@ -150,7 +149,9 @@ class _EditMedPageState extends State<EditMedPage> {
                   suffixIcon: Icon(Icons.access_time),
                 ),
                 child: Text(
-                  timeController.text.isNotEmpty ? timeController.text : "Time not selected" ,
+                  timeController.text.isNotEmpty
+                      ? timeController.text
+                      : "Time not selected",
                 ),
               ),
             ),

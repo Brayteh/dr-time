@@ -1,3 +1,4 @@
+import 'package:dr_time/data/database_repository.dart';
 import 'package:dr_time/screens/ProfilePage.dart';
 import 'package:dr_time/screens/home_screen.dart';
 import 'package:dr_time/screens/searchPage.dart';

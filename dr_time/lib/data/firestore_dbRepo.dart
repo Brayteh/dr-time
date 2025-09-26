@@ -1,41 +1,51 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dr_time/data/firestore_dbRepo.dart';
+import 'package:dr_time/data/database_repository.dart';
 import 'package:dr_time/domain/medicament.dart';
-
-abstract class DatabaseRepository {
-  Future<List<Medicament>> readAllMedicamente();
-  Future<void> createMedicament(Medicament medicament);
-  Future<void> updateMedicament(int id, Medicament medicament);
-  Future<void> deleteMedicament(int id);
-}
+import 'package:firebase_auth/firebase_auth.dart';
 
 class FirestoreDatabaseRepository implements DatabaseRepository {
-  final CollectionReference medicamentsCollection =
-      FirebaseFirestore.instance.collection('medicaments');
+  // Helper to get the user-specific collection
+  CollectionReference _getMedicamentsCollection() {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) {
+      throw Exception('User not logged in. Cannot access database.');
+    }
+    return FirebaseFirestore.instance
+        .collection('users')
+        .doc(user.uid)
+        .collection('medicaments');
+  }
 
   @override
   Future<List<Medicament>> readAllMedicamente() async {
-    final QuerySnapshot snapshot = await medicamentsCollection.get();
+    final QuerySnapshot snapshot = await _getMedicamentsCollection().get();
     return snapshot.docs.map((DocumentSnapshot doc) {
-      return Medicament.fromMap(doc.data() as Map<String, dynamic>);
+      return Medicament.fromMap(doc.data() as Map<String, dynamic>, doc.id); // Übergib die Dokument-ID
     }).toList();
   }
 
   @override
+  Stream<List<Medicament>> readAllMedicamenteStream() {
+    return _getMedicamentsCollection().snapshots().map((snapshot) {
+      return snapshot.docs.map((doc) {
+        return Medicament.fromMap(
+            doc.data() as Map<String, dynamic>, doc.id);
+      }).toList();
+    });
+  }
+
+  @override
   Future<void> createMedicament(Medicament medicament) async {
-    await medicamentsCollection.add(medicament.toMap());
+    await _getMedicamentsCollection().add(medicament.toMap());
   }
 
   @override
-  Future<void> updateMedicament(int id, Medicament medicament) async {
-    await medicamentsCollection.doc(id.toString()).update(medicament.toMap());
+  Future<void> updateMedicament(String id, Medicament medicament) async { // Verwende String als ID
+    await _getMedicamentsCollection().doc(id).update(medicament.toMap()); // Verwende String als ID
   }
 
   @override
-  Future<void> deleteMedicament(int id) async {
-    await medicamentsCollection.doc(id.toString()).delete();
+  Future<void> deleteMedicament(String id) async { // Verwende String als ID
+    await _getMedicamentsCollection().doc(id).delete(); // Verwende String als ID
   }
 }
-
-
-

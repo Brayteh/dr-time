@@ -11,61 +11,59 @@ class SignUpPage extends StatefulWidget {
 
 class _SignUpPageState extends State<SignUpPage> {
   bool term = false;
+  final _formKey = GlobalKey<FormState>();
   final  emailController = TextEditingController();
   final  passwordController = TextEditingController();
   final  confirmController = TextEditingController();
 
   Future<void> _register() async {
+    if (!_formKey.currentState!.validate()) return;
     if (!term) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text("please accept the terms and conditions")),
       );
       return;
     }
-    if (passwordController.text != confirmController.text) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Passwords do not match")),
-      );
-      return;
-    }
     try {
-  await FirebaseAuth.instance.createUserWithEmailAndPassword(
-    email: emailController.text.trim(),
-    password: passwordController.text,
-  );
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: emailController.text.trim(),
+        password: passwordController.text,
+      );
 
-  ScaffoldMessenger.of(context).showSnackBar(
-    const SnackBar(content: Text("✅ Registration successful")),
-  );
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("✅ Registration successful")),
+      );
 
-  Navigator.pop(context); // Back to Login Page
-} on FirebaseAuthException catch (e) {
-  String message = "";
-  if (e.code == 'email-already-in-use') {
-    message = "📧 This email is already in use";
-  } else if (e.code == 'invalid-email') {
-    message = "❌ The email format is invalid";
-  } else if (e.code == 'weak-password') {
-    message = "🔑 The password is too weak (minimum 6 characters)";
-  } else {
-    message = "⚠️ Unexpected error: ${e.message}";
-  }
+      Navigator.pop(context); // Back to Login Page
+    } on FirebaseAuthException catch (e) {
+      String message = "";
+      if (e.code == 'email-already-in-use') {
+        message = "📧 This email is already in use";
+      } else if (e.code == 'invalid-email') {
+        message = "❌ The email format is invalid";
+      } else if (e.code == 'weak-password') {
+        message = "🔑 The password is too weak";
+      } else {
+        message = "⚠️ Unexpected error: ${e.message}";
+      }
 
-  ScaffoldMessenger.of(context).showSnackBar(
-    SnackBar(content: Text(message)),
-  );
-} catch (e) {
-  ScaffoldMessenger.of(context).showSnackBar(
-    const SnackBar(content: Text("⚠️ Unknown error")),
-  );
-}
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(message)),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("⚠️ Unknown error")),
+      );
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(automaticallyImplyLeading: true,),
-      body: SingleChildScrollView(
+      body: Form(
+        key: _formKey,
+        child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -125,11 +123,22 @@ class _SignUpPageState extends State<SignUpPage> {
         
                 Padding(                                           // Border
                 padding: EdgeInsets.all(10),
-                 child: TextField(
+                 child: TextFormField(
                   controller: emailController,
                   keyboardType: TextInputType.emailAddress,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter your email';
+                    }
+                    // Regex for email validation
+                    final emailRegex = RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
+                    if (!emailRegex.hasMatch(value)) {
+                      return 'Please enter a valid email address';
+                    }
+                    return null;
+                  },
                   decoration: InputDecoration(
-                    label: Text("enter your Email address"),),
+                    labelText: "enter your Email address"),
                 ),
                 ),
                Padding(padding: EdgeInsets.only(left: 10),         // Email
@@ -138,11 +147,23 @@ class _SignUpPageState extends State<SignUpPage> {
               ),
                 Padding(                                           // Border
                 padding: EdgeInsets.all(10),
-                child: TextField(
+                child: TextFormField(
                   controller: passwordController,
                   obscureText: true,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter your password';
+                    }
+                    if (value.length < 8) {
+                      return 'Password must be at least 8 characters long';
+                    }
+                    if (!RegExp(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).{8,}$').hasMatch(value)) {
+                      return 'Password must contain uppercase, lowercase, number, and special character';
+                    }
+                    return null;
+                  },
                   decoration: InputDecoration(
-                    label: Text("enter your password"),),
+                    labelText: "enter your password"),
                 ),
                 ),
                Padding(padding: EdgeInsets.only(left: 10),         // Email
@@ -151,10 +172,19 @@ class _SignUpPageState extends State<SignUpPage> {
               ),
                 Padding(                                           // Border
                    padding: EdgeInsets.all(10),
-                  child: TextField( obscureText: true,
+                  child: TextFormField( obscureText: true,
                   controller: confirmController,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please confirm your password';
+                    }
+                    if (value != passwordController.text) {
+                      return 'Passwords do not match';
+                    }
+                    return null;
+                  },
                   decoration: InputDecoration(
-                    label: Text("confirm your password"),),
+                    labelText: "confirm your password"),
                 ),
                 ),
         
@@ -206,9 +236,7 @@ class _SignUpPageState extends State<SignUpPage> {
           ],
         ),
       ),
+      ),
     );
   }
 }
-
-
-

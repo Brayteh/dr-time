@@ -15,6 +15,7 @@ class LogInPage extends StatefulWidget {   //loginscreen
 }
 
 class _LogInPageState extends State<LogInPage> {
+  final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
@@ -28,6 +29,10 @@ class _LogInPageState extends State<LogInPage> {
   }
 
   Future<void> _login() async {
+    if (!_formKey.currentState!.validate()) {
+      return;
+    }
+
     final String email = _emailController.text.trim();
     final String password = _passwordController.text;
 
@@ -74,6 +79,7 @@ class _LogInPageState extends State<LogInPage> {
 
     return  Scaffold(
               body: Form(
+                key: _formKey,
                 child: ListView(
                 padding: const EdgeInsets.all(0),
                 children: [
@@ -91,12 +97,23 @@ class _LogInPageState extends State<LogInPage> {
                             ),
                     SizedBox(height: 3),
                     Padding(padding: EdgeInsets.all(16),  
-                child: TextField(
+                child: TextFormField(
                   controller: _emailController,      //hay l7ta t5tfe error lma nktb
                   onChanged: (text){
                     if(_emailErrorText != null){setState(() {
                       _emailErrorText = null;
                     });}
+                  },
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter your email';
+                    }
+                    // Regex for email validation
+                    final emailRegex = RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
+                    if (!emailRegex.hasMatch(value)) {
+                      return 'Please enter a valid email address';
+                    }
+                    return null;
                   },
                    keyboardType: TextInputType.emailAddress,
                   decoration: InputDecoration(
@@ -108,9 +125,21 @@ class _LogInPageState extends State<LogInPage> {
                             ),
                             ),
                    SizedBox(height: 3),
-                   Padding(padding: EdgeInsets.all(16),                   
-                   child: TextField(
+                   Padding(padding: EdgeInsets.all(16),
+                   child: TextFormField(
                     controller: _passwordController,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter your password';
+                      }
+                      if (value.length < 8) {
+                        return 'Password must be at least 8 characters long';
+                      }
+                      if (!RegExp(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).{8,}$').hasMatch(value)) {
+                        return 'Password must contain uppercase, lowercase, number, and special character';
+                      }
+                      return null;
+                    },
                     obscureText: true, keyboardType: TextInputType.visiblePassword,
                     decoration: InputDecoration(
                       errorText: _emailErrorText,  // la 3rd error massage

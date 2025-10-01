@@ -108,6 +108,7 @@ class ViewMedPage extends StatelessWidget {
             ),
             const SizedBox(height: 10),
             Text(
+              // ignore: unnecessary_null_comparison
               medicament.time != null ? 'Time: ${medicament.time}' : 'No time set',
               style: const TextStyle(fontSize: 16, color: Colors.green),
             ),

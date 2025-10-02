@@ -1,4 +1,5 @@
 import 'package:dr_time/Theme/switch.dart';
+import 'package:dr_time/screens/auth_repository.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -15,6 +16,7 @@ class _SignUpPageState extends State<SignUpPage> {
   final  emailController = TextEditingController();
   final  passwordController = TextEditingController();
   final  confirmController = TextEditingController();
+  final  _authRepository = AuthRepository();
 
   Future<void> _register() async {
     if (!_formKey.currentState!.validate()) return;
@@ -25,9 +27,9 @@ class _SignUpPageState extends State<SignUpPage> {
       return;
     }
     try {
-      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      await _authRepository.signUp(
         email: emailController.text.trim(),
-        password: passwordController.text,
+        password: passwordController.text
       );
 
       ScaffoldMessenger.of(context).showSnackBar(

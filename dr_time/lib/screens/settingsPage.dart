@@ -1,3 +1,4 @@
+import 'package:dr_time/screens/auth_repository.dart';
 import 'package:dr_time/screens/sign_in_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:dr_time/Theme/switch.dart';
@@ -16,6 +17,7 @@ class SettingsPage extends StatefulWidget {
 class _SettingsPageState extends State<SettingsPage> {
   late bool dark;
   bool vibration = false;
+  final _authRepository = AuthRepository();
 
   @override
   void initState() {
@@ -75,17 +77,11 @@ class _SettingsPageState extends State<SettingsPage> {
             ElevatedButton(
               onPressed: () async {
                 if (_formKey.currentState!.validate()) {
-                  final user = FirebaseAuth.instance.currentUser;
-                  if (user == null) return;
-
-                  final cred = EmailAuthProvider.credential(
-                    email: user.email!,
-                    password: _oldPasswordController.text,
-                  );
-
                   try {
-                    await user.reauthenticateWithCredential(cred);
-                    await user.updatePassword(_newPasswordController.text);
+                    await _authRepository.changePassword(
+                      oldPassword: _oldPasswordController.text,
+                      newPassword: _newPasswordController.text,
+                    );
                     Navigator.pop(context);
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(content: Text("Password changed successfully!"), backgroundColor: Colors.green),
@@ -134,23 +130,17 @@ class _SettingsPageState extends State<SettingsPage> {
             TextButton(onPressed: () => Navigator.pop(context), child: Text("Cancel")),
             TextButton(
               onPressed: () async {
-                final user = FirebaseAuth.instance.currentUser;
-                if (user == null || _passwordController.text.isEmpty) {
+                if (_passwordController.text.isEmpty) {
                    ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(content: Text("Password is required."), backgroundColor: Colors.red),
                     );
                   return;
                 }
 
-                final cred = EmailAuthProvider.credential(
-                  email: user.email!,
-                  password: _passwordController.text,
-                );
-
                 try {
-                  await user.reauthenticateWithCredential(cred);
-                  await user.delete();
-                  
+                  await _authRepository.deleteAccount(
+                    password: _passwordController.text,
+                  );
                   // Clear navigation stack and go to sign-in screen
                   Navigator.of(context).pushAndRemoveUntil(
                     MaterialPageRoute(builder: (context) => LogInPage(

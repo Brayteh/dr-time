@@ -1,6 +1,6 @@
+import 'package:dr_time/screens/auth_repository.dart';
 import 'package:dr_time/screens/navigationPage.dart';
 import 'package:dr_time/screens/sign_up.dart';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -18,6 +18,7 @@ class _LogInPageState extends State<LogInPage> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _authRepository = AuthRepository();
 
   String? _emailErrorText;
 
@@ -41,9 +42,9 @@ class _LogInPageState extends State<LogInPage> {
     });
 
     try {
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
+      await _authRepository.logInWithEmailAndPassword(
         email: email,
-        password: password,
+        password: password
       );
       // النجاح: انتقل للصفحة الرئيسية
       Navigator.of(context).pushReplacement(

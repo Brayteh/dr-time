@@ -3,12 +3,10 @@ import 'package:dr_time/screens/navigationPage.dart';
 import 'package:dr_time/screens/sign_up.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
+import 'package:provider/provider.dart';
 
 class LogInPage extends StatefulWidget {   //loginscreen
-  final bool isDark;
-  final Function(bool) onThemeChanged;
-  const LogInPage({super.key, required this.isDark, required this.onThemeChanged});
+  const LogInPage({super.key});
 
   @override
   State<LogInPage> createState() => _LogInPageState();
@@ -18,7 +16,6 @@ class _LogInPageState extends State<LogInPage> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  final _authRepository = AuthRepository();
 
   String? _emailErrorText;
 
@@ -42,17 +39,14 @@ class _LogInPageState extends State<LogInPage> {
     });
 
     try {
-      await _authRepository.logInWithEmailAndPassword(
+      await context.read<AuthRepository>().logInWithEmailAndPassword(
         email: email,
         password: password
       );
       // النجاح: انتقل للصفحة الرئيسية
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
-          builder: (context) => NavigationPage(
-            isDark: widget.isDark,
-            onThemeChanged: widget.onThemeChanged,
-          ),
+          builder: (context) => const NavigationPage(),
         ),
       );
     } on FirebaseAuthException catch (e) {
@@ -164,7 +158,7 @@ class _LogInPageState extends State<LogInPage> {
                 child: TextButton( // you dont have..?
                   style: TextButton.styleFrom(foregroundColor: Colors.blue), // لون النص
                   onPressed: (){Navigator.push(context,MaterialPageRoute(builder: (context)=> SignUpPage()), // Navi zu signUp
-                  );},
+                  );}, // SignUpPage doesn't need theme props anymore if we adjust it
                    child: Text("you don't have an account? sign up")),
                             ),
                 Center(

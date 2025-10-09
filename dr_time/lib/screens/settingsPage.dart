@@ -1,29 +1,19 @@
+import 'package:dr_time/Theme/theme_provider.dart';
 import 'package:dr_time/screens/auth_repository.dart';
 import 'package:dr_time/screens/sign_in_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:dr_time/Theme/switch.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:provider/provider.dart';
 
 class SettingsPage extends StatefulWidget {
-  final bool isDark;
-  final Function(bool) onThemeChanged;
-
-  const SettingsPage({super.key, required this.isDark, required this.onThemeChanged});
+  const SettingsPage({super.key});
 
   @override
   State<SettingsPage> createState() => _SettingsPageState();
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-  late bool dark;
-  bool vibration = false;
-  final _authRepository = AuthRepository();
-
-  @override
-  void initState() {
-    super.initState();
-    dark = widget.isDark;
-  }
 
   void _showChangePasswordDialog() {
     final _formKey = GlobalKey<FormState>();
@@ -78,7 +68,7 @@ class _SettingsPageState extends State<SettingsPage> {
               onPressed: () async {
                 if (_formKey.currentState!.validate()) {
                   try {
-                    await _authRepository.changePassword(
+                    await context.read<AuthRepository>().changePassword(
                       oldPassword: _oldPasswordController.text,
                       newPassword: _newPasswordController.text,
                     );
@@ -138,15 +128,12 @@ class _SettingsPageState extends State<SettingsPage> {
                 }
 
                 try {
-                  await _authRepository.deleteAccount(
+                  await context.read<AuthRepository>().deleteAccount(
                     password: _passwordController.text,
                   );
                   // Clear navigation stack and go to sign-in screen
                   Navigator.of(context).pushAndRemoveUntil(
-                    MaterialPageRoute(builder: (context) => LogInPage(
-                      isDark: widget.isDark,
-                      onThemeChanged: widget.onThemeChanged,
-                    )),
+                    MaterialPageRoute(builder: (context) => const LogInPage()),
                     (Route<dynamic> route) => false,
                   );
 
@@ -174,6 +161,8 @@ class _SettingsPageState extends State<SettingsPage> {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = context.watch<ThemeProvider>();
+
     return Scaffold(
       appBar: AppBar(automaticallyImplyLeading: true),
       body: Column(
@@ -194,12 +183,9 @@ class _SettingsPageState extends State<SettingsPage> {
               Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: SwitchExample(
-                  value: dark,
+                  value: themeProvider.isDark,
                   onChanged: (bool value) {
-                    setState(() {
-                      dark = value;
-                    });
-                    widget.onThemeChanged(value); // يغير الثيم ويحفظ
+                    context.read<ThemeProvider>().toggleTheme(value); // يغير الثيم ويحفظ
                   },
                 ),
               ),

@@ -1,7 +1,7 @@
-import 'package:dr_time/Theme/switch.dart';
 import 'package:dr_time/screens/auth_repository.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -16,7 +16,6 @@ class _SignUpPageState extends State<SignUpPage> {
   final  emailController = TextEditingController();
   final  passwordController = TextEditingController();
   final  confirmController = TextEditingController();
-  final  _authRepository = AuthRepository();
 
   Future<void> _register() async {
     if (!_formKey.currentState!.validate()) return;
@@ -27,7 +26,7 @@ class _SignUpPageState extends State<SignUpPage> {
       return;
     }
     try {
-      await _authRepository.signUp(
+      await context.read<AuthRepository>().signUp(
         email: emailController.text.trim(),
         password: passwordController.text
       );
@@ -208,10 +207,10 @@ class _SignUpPageState extends State<SignUpPage> {
                padding: const EdgeInsets.all(8.0),
                child: Text("I have read the terms and conditions",style: Theme.of(context).textTheme.labelLarge,),
                ),
-                      Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: SwitchExample(value: term,
-                         onChanged: (bool value) {setState(() {
+             Padding(
+               padding: const EdgeInsets.all(16.0),
+               child: Switch(value: term,
+                   onChanged: (bool value) {setState(() {
                            term = value;
                          });}
                          ),

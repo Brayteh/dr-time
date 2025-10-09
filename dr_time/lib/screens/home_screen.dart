@@ -5,12 +5,11 @@ import 'package:dr_time/screens/add.dart';
 import 'package:dr_time/screens/viewMedPage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:dr_time/data/firestore_dbRepo.dart';
+import 'package:provider/provider.dart';
 
 
 class HomePage extends StatefulWidget {
-  final DatabaseRepository db;
-  const HomePage({super.key, required this.db});
+  const HomePage({super.key});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -30,6 +29,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final db = context.watch<DatabaseRepository>();
+
     return Scaffold(
       body: Column(
         children: [
@@ -45,7 +46,7 @@ class _HomePageState extends State<HomePage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => AddPage(db: widget.db),
+                        builder: (context) => AddPage(db: db),
                       ),
                     ).then((_) {
                       setState(() {}); // update nach adden
@@ -73,12 +74,12 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
             ],
-          ),          // FutureBuilder to load medicaments from the database
+          ),          
           Expanded(
             child: _user == null
                 ? const Center(child: CircularProgressIndicator())
                 : StreamBuilder<List<Medicament>>(
-              stream: widget.db.readAllMedicamenteStream(),
+              stream: db.readAllMedicamenteStream(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(child: CircularProgressIndicator());
@@ -106,7 +107,7 @@ class _HomePageState extends State<HomePage> {
                               context,
                               MaterialPageRoute(
                                 builder: (context) => ViewMedPage(
-                                  db: widget.db as FirestoreDatabaseRepository,
+                                  db: db,
                                   medicament: med,
                                 ),
                               ),

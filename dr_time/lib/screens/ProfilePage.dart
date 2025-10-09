@@ -5,9 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class ProfilePage extends StatefulWidget {
-  final bool isDark;
-  final Function(bool) onThemeChanged;
-  const ProfilePage({super.key, required this.isDark, required this.onThemeChanged});
+  const ProfilePage({super.key});
 
   @override
   State<ProfilePage> createState() => _ProfilePageState();
@@ -113,12 +111,7 @@ void _submit() {
                         await FirebaseAuth.instance.signOut();
                         Navigator.pushReplacement(
                           context,
-                          MaterialPageRoute(
-                            builder: (context) => LogInPage(
-                              isDark: widget.isDark,
-                              onThemeChanged: widget.onThemeChanged,
-                            ),
-                          ),
+                          MaterialPageRoute(builder: (context) => const LogInPage()),
                         );
                       },
                     ),

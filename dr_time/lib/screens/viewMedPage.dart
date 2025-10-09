@@ -1,3 +1,4 @@
+import 'package:dr_time/data/database_repository.dart';
 import 'package:dr_time/data/firestore_dbRepo.dart';
 import 'package:dr_time/screens/edit.dart';
 import 'dart:io';
@@ -5,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:dr_time/domain/medicament.dart'; // Importiere Medicament-Klasse
 
 class ViewMedPage extends StatelessWidget {
-  final FirestoreDatabaseRepository db; // Verwende FirestoreDatabaseRepository
+  final DatabaseRepository db;
   final Medicament medicament; // Verwende Medicament-Klasse
 
   const ViewMedPage({
@@ -34,8 +35,8 @@ class ViewMedPage extends StatelessWidget {
                     await Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => EditMedPage(
-                          db: db,
+                        builder: (context) => EditMedPage( // Cast db to FirestoreDatabaseRepository
+                          db: db as FirestoreDatabaseRepository,
                           medicament: medicament,
                         ),
                       ),

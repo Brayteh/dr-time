@@ -3,11 +3,10 @@ import 'package:dr_time/data/database_repository.dart';
 import 'package:dr_time/domain/medicament.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 
 class AddPage extends StatefulWidget {
-  final DatabaseRepository db;
-
-  const AddPage({super.key, required this.db});
+  const AddPage({super.key});
 
   @override
   State<AddPage> createState() => _AddPageState();
@@ -135,7 +134,8 @@ class _AddPageState extends State<AddPage> {
                       time: timeController.text.isEmpty ? 'undefined' : timeController.text,
                     );
 
-                    await widget.db.createMedicament(newMed);
+                    final db = context.read<DatabaseRepository>();
+                    await db.createMedicament(newMed);
                     Navigator.pop(context);
                   },
                   child: const Text(

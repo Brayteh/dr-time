@@ -1,15 +1,14 @@
-import 'package:dr_time/data/firestore_dbRepo.dart';
+import 'package:dr_time/data/database_repository.dart';
 import 'package:dr_time/domain/medicament.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 
 class EditMedPage extends StatefulWidget {
-  final FirestoreDatabaseRepository db;
   final Medicament medicament;
 
   const EditMedPage({
     super.key,
-    required this.db,
     required this.medicament,
   });
 
@@ -37,7 +36,8 @@ class _EditMedPageState extends State<EditMedPage> {
     );
 
     try {
-      await widget.db.updateMedicament(widget.medicament.id, updatedMed);
+      final db = context.read<DatabaseRepository>();
+      await db.updateMedicament(widget.medicament.id, updatedMed);
       Navigator.pop(context); // ein mal zurück
       Navigator.pop(context); // zwei mal zurück home page
     } catch (e) {

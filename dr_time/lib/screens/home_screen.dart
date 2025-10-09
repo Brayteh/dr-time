@@ -46,7 +46,7 @@ class _HomePageState extends State<HomePage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => AddPage(db: db),
+                        builder: (context) => const AddPage(),
                       ),
                     ).then((_) {
                       setState(() {}); // update nach adden
@@ -107,7 +107,6 @@ class _HomePageState extends State<HomePage> {
                               context,
                               MaterialPageRoute(
                                 builder: (context) => ViewMedPage(
-                                  db: db,
                                   medicament: med,
                                 ),
                               ),

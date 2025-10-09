@@ -3,15 +3,14 @@ import 'package:dr_time/data/firestore_dbRepo.dart';
 import 'package:dr_time/screens/edit.dart';
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:dr_time/domain/medicament.dart'; // Importiere Medicament-Klasse
 
 class ViewMedPage extends StatelessWidget {
-  final DatabaseRepository db;
   final Medicament medicament; // Verwende Medicament-Klasse
 
   const ViewMedPage({
     super.key,
-    required this.db,
     required this.medicament,
   });
 
@@ -36,7 +35,6 @@ class ViewMedPage extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                         builder: (context) => EditMedPage( // Cast db to FirestoreDatabaseRepository
-                          db: db as FirestoreDatabaseRepository,
                           medicament: medicament,
                         ),
                       ),
@@ -61,9 +59,11 @@ class ViewMedPage extends StatelessWidget {
                             },
                             child: const Text("Cancel"),
                           ),
+                          // زر الحذف
                           TextButton(
                             onPressed: () async {
-                              await db.deleteMedicament(medicament.id); // Verwende Firestore zum Löschen
+                              final db = context.read<DatabaseRepository>();
+                              await db.deleteMedicament(medicament.id);
                               Navigator.of(ctx).pop();
                               Navigator.of(context).pop();
                             },
@@ -73,6 +73,7 @@ class ViewMedPage extends StatelessWidget {
                             ),
                           ),
                         ],
+                        // زر الحذف
                       ),
                     );
                   },
@@ -112,6 +113,7 @@ class ViewMedPage extends StatelessWidget {
               // ignore: unnecessary_null_comparison
               medicament.time != null ? 'Time: ${medicament.time}' : 'No time set',
               style: const TextStyle(fontSize: 16, color: Colors.green),
+              // ignore: unnecessary_null_comparison
             ),
           ],
         ),

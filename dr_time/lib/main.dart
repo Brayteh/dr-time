@@ -2,6 +2,7 @@ import 'package:dr_time/Theme/theme.dart';
 import 'package:dr_time/Theme/theme_provider.dart';
 import 'package:dr_time/data/database_repository.dart';
 import 'package:dr_time/data/firestore_dbRepo.dart';
+import 'package:dr_time/data/drug_api_service.dart';
 import 'package:dr_time/firebase_options.dart';
 import 'package:dr_time/screens/auth_repository.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -39,6 +40,9 @@ class MyApp extends StatelessWidget {
         ),
         Provider<DatabaseRepository>(
           create: (_) => FirestoreDatabaseRepository(),
+        ),
+        Provider<DrugApiService>(
+          create: (_) => DrugApiService(),
         ),
         ChangeNotifierProvider<ThemeProvider>(
           create: (_) => ThemeProvider(isDark: isDark),

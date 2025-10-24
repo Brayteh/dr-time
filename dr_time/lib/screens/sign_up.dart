@@ -188,18 +188,6 @@ class _SignUpPageState extends State<SignUpPage> {
                     labelText: "confirm your password"),
                 ),
                 ),
-        
-              Center(                                                      // Sign Up button 
-                child: SizedBox(
-                width: 200, // العرض المطلوب
-                child: ElevatedButton(
-                style: ElevatedButton.styleFrom(elevation: 2,backgroundColor: const Color.fromARGB(255, 68, 202, 232)),
-                onPressed: _register,
-                child:
-                   Text("Sign Up",style:TextStyle(fontSize: 23,fontWeight: FontWeight.bold, color: Colors.white),),
-            ),
-           ),
-          ),
           SizedBox(height: 8),
           Row( mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -216,28 +204,41 @@ class _SignUpPageState extends State<SignUpPage> {
                          ),
                       ),
           ],),
-          Center(child:
-               Text("or login with", style: TextStyle(color: Colors.lightBlue),), //or login with
+        
+              Center(                                                      // Sign Up button 
+                child: SizedBox(
+                width: 200, // العرض المطلوب
+                child: ElevatedButton(
+                style: ElevatedButton.styleFrom(elevation: 2,backgroundColor: const Color.fromARGB(255, 68, 202, 232)),
+                onPressed: _register,
+                child:
+                   Text("Sign Up",style:TextStyle(fontSize: 23,fontWeight: FontWeight.bold, color: Colors.white),),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Center(
-                  child: SizedBox(
-                    height: 60,
-                    child: IconButton(onPressed: (){}, icon: Icon(Icons.apple)),
-                  ),
-                ),
-                IconButton(onPressed: (){}, icon: Icon(Icons.mail)),
+           ),
+          ),
+
+      //     Center(child:
+      //           Text("or login with", style: TextStyle(color: Colors.lightBlue),), //or login with
+      //        ),
+      //       Row(
+      //         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      //         children: [
+      //          Center(
+      //           child: SizedBox(
+      //             height: 60,
+      //            child: IconButton(onPressed: (){}, icon: Icon(Icons.apple)),
+      //          ),
+      //        ),
+      //             IconButton(onPressed: (){}, icon: Icon(Icons.mail)),
               ],
             ),   
                 
             
             
-          ],
+      
         ),
       ),
-      ),
+      
     );
   }
 }

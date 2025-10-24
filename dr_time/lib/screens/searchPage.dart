@@ -81,7 +81,7 @@ class _SearchPageState extends State<SearchPage> {
             const SizedBox(height: 8),
             const Padding(
               padding: EdgeInsets.only(left: 16),
-              child: Text("Search Drugs Online", style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold)),
+              child: Text("Search Online", style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold)),
             ),
             Padding(
               padding: const EdgeInsets.all(16),
